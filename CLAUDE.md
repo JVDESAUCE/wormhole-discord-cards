@@ -34,6 +34,15 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 11. GIF animates. Digits do not.
 12. Do not print a 1212.is discount code, a drop password, or a wallet.
 13. £ is £nergy, not sterling. One footer line is enough.
+14. Player-facing time is `12⋮12`, never `12:12`. `cards.energy` runs `markTime()`.
+
+## Stack
+
+- discord.js **14.16+** (`ContainerBuilder`, `MessageFlags.IsComponentsV2`).
+- Flag: `1 << 15` = `32768`. Ephemeral combo: `32768 | 64` = `32832`.
+- Once V2 is set: **no `content`, no `embeds`.**
+- Prefix cannot be ephemeral. Personal prefix → delete bot reply after **20s**. Slash `/balance` is the stay-visible private WH card. Optional `/e` for `.£`.
+- Attach `wormhole.gif` as `attachment://wormhole.gif` only on cards whose spec says `thumb` or `hero`. Do not hotlink.
 
 ## First diffs
 
@@ -41,8 +50,75 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 2. Add `wh-cards.js`. Map Mongo member → DTO (`pound`, `streak`, `xp`, `issuer`, plus existing WH `balance`).
 3. **Swap `.£` / `.e` to `cards.pound`.** Kill the pixel essay.
 4. Swap `.daily` on the £ book to `cards.streakOn`. Do not credit £. If WH daily is still live, keep `cards.daily` on the `.$` book only.
-5. Swap `.energy` to `cards.energy` catch (`hhmm`, `kind`, `mult`, `xp`). Always £ 0.
+5. Swap `.energy` to `cards.energy` catch (`hhmm`, `kind`, `mult`, `xp`). Always £ 0. Print `12⋮12`, never `12:12`.
 6. Then WH surface: `.$` `.shop` `.buy` `.inventory` `.leaderboard` `.curtrs` `.drop` `.pick` `.give` `.award` `.take` `.node` `.proof`
-7. Leave `.react` and `.whitelist` alone.
+7. Add slash `/balance` (ephemeral V2). Keep prefix `.`
+8. Wire shop buttons `wh:buy:<id>` and L1 confirm `wh:confirm:<id>` for price ≥ 1000.
+9. Optional: `.help` / `/help` using `cards.help`.
+10. Leave `.react` and `.whitelist` alone.
 
-Full catalogue, stack, and acceptance: see the droplet copy of this file, or paste from the App Builder pack page.
+## Catalogue (mocks match)
+
+£ book first:
+
+| # | Command | Factory | Visibility | Accent | GIF |
+|---|---|---|---|---|---|
+| 33 | `.£` `.e` | `cards.pound` | personal | accent | thumb |
+| 34 | `.daily` | `cards.streakOn` | public | ok | thumb |
+| 14 | `.energy` | `cards.energy` | public | accent | thumb |
+
+WH book (frozen ledger):
+
+| # | Command | Factory | Visibility | Accent | GIF |
+|---|---|---|---|---|---|
+| 01 | `.$` `/balance` | `cards.balance` | personal | accent | thumb |
+| 28 | first join | `cards.welcome` | personal | ok | thumb |
+| 29 | `.help` `/help` | `cards.help` | personal | accent | none |
+| 02 | `.daily` (WH leftover) | `cards.daily` | public | ok | thumb |
+| 03 | `.daily` already | `cards.dailyClaimed` | personal | warn | thumb |
+| 17 | invite counted | `cards.invite` | personal to inviter | accent | none |
+| 04 | `.shop` | `cards.shop` | personal | accent | none |
+| 24 | confirm L1 ≥1000 | `cards.confirmL1` | personal | warn | none |
+| 05 | buy L1 drink | `cards.boughtL1` | **public** | ok | none |
+| 05b | buy L1 1212.is | `cards.boughtL1` | **public** | ok | none |
+| 05c | buy L1 Dragon12 | `cards.boughtL1` | **public** | ok | none |
+| 06 | buy L2 | `cards.boughtL2` | public | ok | none |
+| 07 | `.inventory` | `cards.inventory` | personal | accent | none |
+| 30 | `.inventory` empty | `cards.inventory` | personal | accent | none |
+| 21 | shop off | `cards.shopOff` | personal | bad | none |
+| 22 | sold out | `cards.soldOut` | personal | warn | none |
+| 23 | needs role | `cards.needsRole` | personal | warn | none |
+| 09 | `.drop` live | `cards.dropLive` | public, edit closed | ok | **hero** |
+| 25 | drop closed | `cards.dropClosed` | public (edit) | accent | none |
+| 10 | `.pick` win | `cards.pick` | public | ok | thumb |
+| 11 | `.pick` gone | `cards.pickGone` | personal | bad | none |
+| 27 | drop expired | `cards.pickGone({expired:true})` | personal | bad | none |
+| 12 | `.give` | `cards.give` | public | accent | none |
+| 08 | `.leaderboard` | `cards.leaderboard` | public | accent | none |
+| 13 | `.curtrs` | `cards.curtrs` | personal | accent | none |
+| 15 | `.node` | `cards.node` | public | accent | thumb |
+| 26 | node gated | `cards.nodeGated` | personal | warn | none |
+| 16 | `.proof` | `cards.proof` | public | accent | proof file |
+| 32 | `.proof` no image | `cards.needImage` | personal | bad | none |
+| 18 | `.award` | `cards.award` | public | ok | none |
+| 19 | `.take` | `cards.take` | public | bad | none |
+| 20 | not enough WH | `cards.errorFunds` | personal | bad | none |
+| 31 | role grant fail | `cards.refund` | personal | warn | none |
+
+Do **not** design: react, whitelist, animated digits, blurple Primary, emoji, ⚡-as-WH, coins-per-hour, CSS-in-PNG fake cards.
+
+## Acceptance
+
+1. `ContainerBuilder` + `IsComponentsV2` and **zero** `content`/`embeds`.
+2. `.£` is a **big £ number**, not an essay. Streak field includes iris count.
+3. `.daily` streakOn credits **0 £**.
+4. `.energy` prints **£ 0** and an XP figure from the number bible.
+5. `.$` still prints WH. Never on a £ card.
+6. Kicker: £ book `12⋮12am · SLOT`. WH book `WORMHOLE · SLOT`.
+7. GIF only where the table says. Digits static.
+8. Buttons Secondary, `wh:` ids.
+9. `.whitelist` still off, no card.
+10. React still silent.
+11. Personal prefix cards delete after 20s.
+12. L1 buy receipts are public.
+13. Catch time prints `12⋮12`, never `12:12`.

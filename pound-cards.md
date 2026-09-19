@@ -21,6 +21,7 @@ Two books. Do not mix.
 5. £ here is **£nergy**, not sterling. One footer line is enough.
 6. Discord cannot run CSS. Motion is `wormhole.gif` as the Section thumbnail. Digits are static markdown. Ring count lives in the STREAK / IRIS fields.
 7. Buttons Secondary only. No emoji. No gold, mana, jar, coin, wallet, cash-out.
+8. **Player-facing time uses `⋮`, never `:`.** 12⋮12, 06⋮39, 09⋮36. Factory `markTime()` converts `:` if the clock still hands you a colon.
 
 ## Factories (in `wh-cards.js`)
 
@@ -34,17 +35,17 @@ await sendCard(message, cards.streakOn({
 }), { gif: true });
 
 await sendCard(message, cards.energy({
-  hhmm: '12:12', kind: 'CREST', mult: 12, xp: 12,
+  hhmm: '12⋮12', kind: 'CREST', mult: 12, xp: 12,
 }), { gif: true });
 ```
 
-Copy in `wh-cards.js` is canonical. Number bible is `number-bible.md`. Shape first.
+`cards.energy` will also accept `'12:12'` and print `12⋮12`. Copy in `wh-cards.js` is canonical. Number bible is `number-bible.md`. Shape first.
 
 ## Wire order
 
 1. `.£` / `.e` → `cards.pound` (kills the pixel essay)
 2. `.daily` → `cards.streakOn` on the £ book (0 £)
-3. `.energy` → `cards.energy` catch (0 £, XP from bible)
+3. `.energy` → `cards.energy` catch (0 £, XP from bible, time with ⋮)
 4. Leave `.$` as `cards.balance` (WH)
 
 Prefix `.£` is personal: delete after 20s. Optional slash `/e` ephemeral.
