@@ -1,0 +1,291 @@
+/* 12⋮12am theme — drop into the web app.
+   Discord cannot run this file. Chat uses wh-cards.js + wormhole.gif.
+   Tokens match tokens.json. */
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@500;600;700&display=swap");
+
+:root {
+  --wh-bg: #070708;
+  --wh-surface: #111114;
+  --wh-raised: #18181c;
+  --wh-fg: #eceef2;
+  --wh-muted: #8d8e96;
+  --wh-faint: #5c5d66;
+  --wh-border: #26262c;
+  --wh-accent: #c9ccd4;
+  --wh-accent-fg: #070708;
+  --wh-ok: #7d9b86;
+  --wh-warn: #b9a27a;
+  --wh-bad: #b57a76;
+  --wh-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --wh-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --wh-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --wh-radius-sm: 8px;
+  --wh-radius-md: 12px;
+  --wh-radius-lg: 20px;
+  --wh-radius-xl: 28px;
+  --wh-kicker: 0.2em;
+}
+
+.wh-page {
+  min-height: 100dvh;
+  background: var(--wh-bg);
+  color: var(--wh-fg);
+  font-family: var(--wh-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wh-kicker {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: var(--wh-kicker);
+  text-transform: uppercase;
+  color: var(--wh-muted);
+}
+
+.wh-display {
+  font-family: var(--wh-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.wh-mono {
+  font-family: var(--wh-mono);
+}
+
+.wh-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--wh-border);
+  border-radius: var(--wh-radius-xl);
+  background: var(--wh-surface);
+}
+
+.wh-card-body {
+  position: relative;
+  padding: 1.75rem 1.25rem 1.5rem;
+}
+
+.wh-amount {
+  margin: 2.5rem 0 0;
+  text-align: center;
+  font-family: var(--wh-display);
+  font-size: 3.75rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.wh-name {
+  margin: 0.75rem 0 0;
+  text-align: center;
+  font-family: var(--wh-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.wh-sub {
+  margin: 0.25rem 0 0;
+  text-align: center;
+  font-family: var(--wh-mono);
+  font-size: 0.875rem;
+  color: var(--wh-muted);
+}
+
+.wh-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin: 2rem 0 0;
+  text-align: center;
+}
+
+.wh-stat {
+  border: 1px solid var(--wh-border);
+  border-radius: var(--wh-radius-md);
+  background: var(--wh-bg);
+  padding: 0.75rem 0.5rem;
+}
+
+.wh-stat strong {
+  display: block;
+  margin-top: 0.25rem;
+  font-family: var(--wh-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.wh-footer {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--wh-muted);
+}
+
+.wh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: var(--wh-radius-sm);
+  background: var(--wh-fg);
+  color: var(--wh-accent-fg);
+  font-family: var(--wh-display);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.wh-btn-ghost {
+  background: transparent;
+  color: var(--wh-fg);
+  border: 1px solid var(--wh-border);
+}
+
+.iris {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.iris-ring {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  border: 1px solid var(--wh-border);
+  animation: iris-spin 18s linear infinite;
+}
+
+.iris.hot .iris-ring {
+  border-color: var(--wh-accent);
+}
+
+@keyframes iris-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wh-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.wh-glyph {
+  width: 3.5rem;
+  height: 4rem;
+  color: var(--wh-fg);
+}
+
+.wh-glyph.faint {
+  color: var(--wh-faint);
+}
+
+.wh-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 4rem;
+  gap: 5px;
+}
+
+.wh-mark i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.glyph-six {
+  transform: rotate(180deg);
+}
+
+.glyph-turn-nine {
+  animation: turn-nine 3.2s ease-in-out infinite;
+}
+
+.glyph-turn-six {
+  animation: turn-six 3.2s ease-in-out infinite;
+}
+
+@keyframes turn-nine {
+  0%,
+  38% {
+    transform: rotate(0deg);
+  }
+  50%,
+  88% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes turn-six {
+  0%,
+  38% {
+    transform: rotate(180deg);
+  }
+  50%,
+  88% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(540deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iris-ring,
+  .glyph-turn-six,
+  .glyph-turn-nine {
+    animation: none;
+  }
+}
+
+/* Discord mock (look-book only — do not ship as a PNG in chat) */
+.dc-card {
+  overflow: hidden;
+  border-radius: 8px;
+  background: #2b2d31;
+  border-left: 4px solid var(--wh-accent);
+  color: #dbdee1;
+  font-family: var(--wh-sans);
+}
+
+.dc-card.ok {
+  border-left-color: var(--wh-ok);
+}
+
+.dc-kicker {
+  margin: 0;
+  font-size: 12px;
+  color: #949ba4;
+}
+
+.dc-title {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f2f3f5;
+}
+
+.dc-amount {
+  margin: 4px 0 0;
+  font-family: var(--wh-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: #f2f3f5;
+}

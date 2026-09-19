@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>12⋮12am theme</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="theme.css" />
+  <style>
+    body { margin: 0; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    header { display: flex; gap: 12px; align-items: center; margin-bottom: 2rem; }
+    header img { height: 40px; width: 64px; object-fit: contain; }
+    h1 { margin: 0; font-family: var(--wh-display); font-size: 1.75rem; font-weight: 600; }
+    .lede { max-width: 40rem; color: var(--wh-muted); font-size: 0.95rem; line-height: 1.55; }
+    .grid3 { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    @media (min-width: 840px) { .grid3 { grid-template-columns: 1fr 1fr 1fr; } }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 1rem; }
+    .swatch { border: 1px solid var(--wh-border); border-radius: 12px; overflow: hidden; background: var(--wh-surface); }
+    .swatch b { display: block; height: 28px; }
+    .swatch p { margin: 0; padding: 8px 10px; font-family: var(--wh-mono); font-size: 12px; }
+    .split { display: grid; gap: 1rem; margin-top: 2rem; }
+    @media (min-width: 840px) { .split { grid-template-columns: 1fr 1fr; } }
+    .panel { border: 1px solid var(--wh-border); border-radius: 20px; padding: 1.25rem; background: var(--wh-surface); }
+    .mocks { display: grid; gap: 12px; grid-template-columns: 1fr; margin-top: 1rem; }
+    @media (min-width: 640px) { .mocks { grid-template-columns: 1fr 1fr 1fr; } }
+    .mocks figure { margin: 0; border: 1px solid var(--wh-border); border-radius: 12px; overflow: hidden; background: var(--wh-surface); }
+    .mocks img { display: block; width: 100%; }
+    .mocks figcaption { padding: 8px 10px; font-family: var(--wh-mono); font-size: 12px; color: var(--wh-muted); }
+    .dc { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; }
+    .dc img { width: 80px; height: 80px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+    .rules { margin: 0; padding-left: 1.1rem; color: var(--wh-muted); font-size: 0.9rem; line-height: 1.55; }
+    .section { margin-top: 2.5rem; }
+  </style>
+</head>
+<body class="wh-page">
+  <div class="wrap">
+    <header>
+      <img src="assets/wormhole.gif" alt="" />
+      <div>
+        <p class="wh-kicker">12⋮12am · full theme</p>
+        <h1>Web CSS · Discord GIF</h1>
+      </div>
+    </header>
+    <p class="lede">
+      One language, two surfaces. Web draws iris rings and the three-dot mark.
+      Discord cannot. It gets <strong style="color:var(--wh-fg)">wormhole.gif</strong>,
+      a silver bar, and <strong style="color:var(--wh-fg)">12⋮12</strong> as text.
+      Catch never mints £. Streak is a picture.
+    </p>
+
+    <section class="section">
+      <p class="wh-kicker">Brand · ship these</p>
+      <div class="grid3" style="margin-top:1rem">
+        <article class="wh-card">
+          <div class="iris hot" data-iris="12"></div>
+          <div class="wh-card-body">
+            <p class="wh-kicker">12⋮12am · .£</p>
+            <p class="wh-amount">0 £</p>
+            <p class="wh-name">Drift</p>
+            <p class="wh-sub">@drift</p>
+            <div class="wh-stats">
+              <div class="wh-stat"><p class="wh-kicker">Streak</p><strong>12</strong></div>
+              <div class="wh-stat"><p class="wh-kicker">XP</p><strong>48</strong></div>
+              <div class="wh-stat"><p class="wh-kicker">£</p><strong>0</strong></div>
+            </div>
+            <p class="wh-footer">Table not set. Streak is a picture. Catch does not mint £.</p>
+          </div>
+        </article>
+
+        <article class="wh-card">
+          <div class="iris hot" data-iris="12"></div>
+          <div class="wh-card-body">
+            <p class="wh-kicker">12⋮12am · STREAK</p>
+            <p class="wh-amount">0 £</p>
+            <p class="wh-name">Activated</p>
+            <p class="wh-sub">11 → 12</p>
+            <div class="wh-stats">
+              <div class="wh-stat"><p class="wh-kicker">Streak</p><strong>12</strong></div>
+              <div class="wh-stat"><p class="wh-kicker">XP</p><strong>48</strong></div>
+              <div class="wh-stat"><p class="wh-kicker">£</p><strong>0</strong></div>
+            </div>
+            <p class="wh-footer">Rings compound. £ does not. Table not set.</p>
+          </div>
+        </article>
+
+        <article class="wh-card">
+          <div class="iris hot" data-iris="12"></div>
+          <div class="wh-card-body">
+            <p class="wh-kicker">12⋮12am · CATCH</p>
+            <div class="wh-time" style="margin-top:2rem">
+              <svg class="wh-glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M 28 6 L 28 42"/></svg>
+              <svg class="wh-glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M 16 10 C 16 4 32 4 32 12 C 32 20 16 26 16 38 L 32 38"/></svg>
+              <span class="wh-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+              <svg class="wh-glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M 28 6 L 28 42"/></svg>
+              <svg class="wh-glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M 16 10 C 16 4 32 4 32 12 C 32 20 16 26 16 38 L 32 38"/></svg>
+            </div>
+            <p class="wh-name">CREST</p>
+            <p class="wh-name" style="font-size:1.75rem;margin-top:0.25rem">×12</p>
+            <div class="wh-stats">
+              <div class="wh-stat"><p class="wh-kicker">Streak</p><strong>12</strong></div>
+              <div class="wh-stat"><p class="wh-kicker">XP</p><strong>+12</strong></div>
+              <div class="wh-stat"><p class="wh-kicker">£</p><strong>0</strong></div>
+            </div>
+            <p class="wh-footer">Shape first. XP from the catch. £ stays 0.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="wh-kicker">PNG mocks · same three</p>
+      <div class="mocks">
+        <figure>
+          <img src="mocks/33-pound.png" alt=".£ branded card" />
+          <figcaption>33-pound · .£</figcaption>
+        </figure>
+        <figure>
+          <img src="mocks/34-streak.png" alt="streak activation" />
+          <figcaption>34-streak · .daily</figcaption>
+        </figure>
+        <figure>
+          <img src="mocks/14-energy.png" alt="12⋮12 catch" />
+          <figcaption>14-energy · 12⋮12 CREST</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div class="panel">
+        <p class="wh-kicker">Web</p>
+        <p class="wh-name" style="text-align:left">theme.css</p>
+        <ul class="rules">
+          <li>Iris is CSS. One ring per streak day, cap 12.</li>
+          <li>Digits from <code>assets/digits.svg</code>. 6 is 9 at 180°.</li>
+          <li>Time mark is three dots. Never a colon.</li>
+          <li>Syne for the number. Plex for the rest.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <p class="wh-kicker">Discord</p>
+        <p class="wh-name" style="text-align:left">wh-cards.js</p>
+        <div class="dc-card" style="margin-top:1rem">
+          <div class="dc">
+            <div>
+              <p class="dc-kicker">12⋮12am · CATCH</p>
+              <p class="dc-title">CREST</p>
+              <p class="dc-amount">×12</p>
+              <p class="dc-kicker" style="margin-top:8px">12⋮12 CREST. XP +12. £ 0.</p>
+            </div>
+            <img src="assets/wormhole.gif" alt="" />
+          </div>
+        </div>
+        <ul class="rules" style="margin-top:0.75rem">
+          <li>GIF animates. Digits do not.</li>
+          <li>Left bar #c9ccd4. Buttons Secondary.</li>
+          <li>Print <code>12⋮12</code>. Factory <code>markTime()</code>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="wh-kicker">Tokens</p>
+      <div class="swatches" id="swatches"></div>
+    </section>
+
+    <section class="section">
+      <p class="wh-kicker">Read next</p>
+      <ul class="rules">
+        <li><a href="pound-cards.md" style="color:var(--wh-fg)">pound-cards.md</a> — wire .£ first</li>
+        <li><a href="number-bible.md" style="color:var(--wh-fg)">number-bible.md</a> — catch multipliers</li>
+        <li><a href="CLAUDE.md" style="color:var(--wh-fg)">CLAUDE.md</a> — Discord catalogue</li>
+        <li><a href="tokens.json" style="color:var(--wh-fg)">tokens.json</a> · <a href="theme.css" style="color:var(--wh-fg)">theme.css</a> · <a href="wh-cards.js" style="color:var(--wh-fg)">wh-cards.js</a></li>
+      </ul>
+    </section>
+  </div>
+  <script>
+    document.querySelectorAll("[data-iris]").forEach((el) => {
+      const n = Math.max(1, Number(el.getAttribute("data-iris")) || 1);
+      for (let i = 0; i < n; i++) {
+        const s = document.createElement("span");
+        s.className = "iris-ring";
+        s.style.width = 18 + i * (70 / n) + "%";
+        s.style.animationDelay = i * 120 + "ms";
+        s.style.opacity = String(0.25 + (i / n) * 0.7);
+        el.appendChild(s);
+      }
+    });
+    const colors = [
+      ["bg", "#070708"],
+      ["surface", "#111114"],
+      ["fg", "#eceef2"],
+      ["muted", "#8d8e96"],
+      ["border", "#26262c"],
+      ["accent", "#c9ccd4"],
+      ["ok", "#7d9b86"],
+      ["warn", "#b9a27a"],
+      ["bad", "#b57a76"],
+    ];
+    const root = document.getElementById("swatches");
+    for (const [name, hex] of colors) {
+      const d = document.createElement("div");
+      d.className = "swatch";
+      d.innerHTML = "<b style='background:" + hex + "'></b><p>" + name + "<br>" + hex + "</p>";
+      root.appendChild(d);
+    }
+  </script>
+</body>
+</html>

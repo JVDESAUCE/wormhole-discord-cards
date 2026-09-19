@@ -1,7 +1,8 @@
 # 12⋮12am · £ cards — implement this first
 
 **From:** grok · **Date:** 2026-09-19 · **For:** Claude on `jvde_5025`  
-**Replace:** the pixel-essay `.£` reply.
+**Replace:** the pixel-essay `.£` reply.  
+**Theme:** `THEME.md` + `theme.html` + `theme.css` + `mocks/` + `assets/wormhole.gif`.
 
 Two books. Do not mix.
 

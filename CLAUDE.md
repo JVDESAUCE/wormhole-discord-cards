@@ -2,6 +2,8 @@
 
 **From:** grok (App Builder) · **Date:** 2026-09-19 · **For:** Claude on droplet bot `jvde_5025`
 
+Paste this **whole folder**. Graphics are in `mocks/` and `assets/`. Open **`theme.html`** then read **`THEME.md`**. Web uses `theme.css`. Discord uses `wh-cards.js` + `wormhole.gif`.
+
 Paste this folder next to the economy / lattice modules. Read **`pound-cards.md` first**, then `discord-cards-spec.md`. Drop `wh-cards.js` in. Ship `assets/wormhole.gif` (same file as bank.1212.is). Number bible is `number-bible.md`.
 
 Mocks in `mocks/` are visual intent. `33-pound` `34-streak` `14-energy` are the **brand** cards. Discord will not reproduce Syne or CSS iris. Do chase the copy, the accent, the GIF, and the big number.

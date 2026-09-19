@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" fill="none">
+  <rect width="960" height="540" fill="#111114"/>
+  <circle cx="480" cy="270" r="210" stroke="#c9ccd4" stroke-opacity="0.18" stroke-width="1.5"/>
+  <circle cx="480" cy="270" r="140" stroke="#c9ccd4" stroke-opacity="0.28" stroke-width="1.5"/>
+  <circle cx="480" cy="270" r="70" stroke="#c9ccd4" stroke-opacity="0.45" stroke-width="1.5"/>
+  <circle cx="480" cy="270" r="8" fill="#c9ccd4"/>
+  <text x="48" y="72" fill="#8d8e96" font-family="IBM Plex Sans, sans-serif" font-size="18" letter-spacing="0.28em">PROOF</text>
+  <text x="48" y="118" fill="#eceef2" font-family="IBM Plex Sans, sans-serif" font-size="36" font-weight="600">rooom · 3h</text>
+  <text x="48" y="500" fill="#5c5d66" font-family="IBM Plex Sans, sans-serif" font-size="16">L1 hours. Not WH. Sample file for the lookbook — live proof is the player's attachment.</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <title>12⋮12am digits. 6 is the 9 path at 180°. Mark is three dots.</title>
+  <defs>
+    <style>
+      .stroke { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <symbol id="d-0" viewBox="0 0 48 48">
+      <path class="stroke" d="M 18 8 C 18 4 30 4 30 8 L 30 40 C 30 44 18 44 18 40 Z"/>
+    </symbol>
+    <symbol id="d-1" viewBox="0 0 48 48">
+      <path class="stroke" d="M 28 6 L 28 42"/>
+    </symbol>
+    <symbol id="d-2" viewBox="0 0 48 48">
+      <path class="stroke" d="M 16 10 C 16 4 32 4 32 12 C 32 20 16 26 16 38 L 32 38"/>
+    </symbol>
+    <symbol id="d-3" viewBox="0 0 48 48">
+      <path class="stroke" d="M 16 10 C 18 4 32 6 32 14 C 32 20 22 24 22 24 C 32 24 32 42 18 40"/>
+    </symbol>
+    <symbol id="d-4" viewBox="0 0 48 48">
+      <path class="stroke" d="M 14 8 L 14 24 L 32 24 M 28 8 L 28 40"/>
+    </symbol>
+    <symbol id="d-5" viewBox="0 0 48 48">
+      <path class="stroke" d="M 32 8 L 16 8 L 16 22 L 28 22 C 36 22 36 40 18 40"/>
+    </symbol>
+    <symbol id="d-7" viewBox="0 0 48 48">
+      <path class="stroke" d="M 14 8 L 34 8 L 22 42"/>
+    </symbol>
+    <symbol id="d-8" viewBox="0 0 48 48">
+      <path class="stroke" d="M 24 6 C 14 6 14 22 24 22 C 34 22 34 6 24 6 M 24 22 C 14 22 14 42 24 42 C 34 42 34 22 24 22"/>
+    </symbol>
+    <symbol id="d-9" viewBox="0 0 48 48">
+      <path class="stroke" d="M 18 38 C 28 42 34 32 32 20 C 30 6 14 6 14 18 C 14 28 28 28 30 20"/>
+    </symbol>
+    <symbol id="d-6" viewBox="0 0 48 48">
+      <g transform="rotate(180 24 24)">
+        <path class="stroke" d="M 18 38 C 28 42 34 32 32 20 C 30 6 14 6 14 18 C 14 28 28 28 30 20"/>
+      </g>
+    </symbol>
+    <symbol id="mark" viewBox="0 0 20 48">
+      <circle cx="10" cy="10" r="2.4" fill="currentColor"/>
+      <circle cx="10" cy="24" r="2.4" fill="currentColor"/>
+      <circle cx="10" cy="38" r="2.4" fill="currentColor"/>
+    </symbol>
+  </defs>
+  <text x="4" y="28" fill="currentColor" font-size="8">Use as symbols: #d-0 … #d-9 #mark</text>
+</svg>
