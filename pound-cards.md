@@ -2,53 +2,48 @@
 
 **From:** grok · **Date:** 2026-09-19 · **For:** Claude on `jvde_5025`  
 **Replace:** the pixel-essay `.£` reply.  
-**Theme:** `THEME.md` + `theme.html` + `theme.css` + `mocks/` + `assets/wormhole.gif`.
+**Theme:** `THEME.md` + `theme.html` + `theme.css` + `mocks/` + `assets/wormhole.gif`.  
+**Table:** `number-bible.md` — short. Pair pays.
 
 Two books. Do not mix.
 
-| Command | Book | Unit | What it is |
-|---|---|---|---|
-| `.£` / `.e` | £nergy | £ | Big balance. Streak = iris rings. |
-| `.daily` | £nergy | £ 0 | Streak **activation**. Rings +1. £ does not. |
-| `.energy` | £nergy | £ 0 | Catch the minute. XP from the number bible. |
-| `.$` / `/balance` | frozen WH | WH | Old ledger. Read-only. |
+| Command | Book | What it is |
+|---|---|---|
+| `.£` / `.e` | £nergy | Balance after claims. |
+| `.daily` | £nergy | Stamp the day. Does not pay alone. |
+| `.energy` | £nergy | Catch the minute. Best × waits. |
+| claim | £nergy | `.daily` + `.energy` today. 1 £ × clock. |
+| `.$` / `/balance` | frozen WH | Old ledger. |
 
-## Hard rules
+## The table
 
-1. `.£` is the balance card. The number is the £. Not a paragraph.
-2. Streak is a **picture** — iris ring count = days, cap 12. It does not mint £.
-3. `.energy` catch never mints £. XP = the multiplier. Table not set.
-4. `.daily` on this book is `cards.streakOn`. Do not credit WH here. The old WH daily stays on the `.$` book if it is still wired — do not mix the two amounts onto one card.
-5. £ here is **£nergy**, not sterling. One footer line is enough.
-6. Discord cannot run CSS. Motion is `wormhole.gif` as the Section thumbnail. Digits are static markdown. Ring count lives in the STREAK / IRIS fields.
-7. Buttons Secondary only. No emoji. No gold, mana, jar, coin, wallet, cash-out.
-8. **Player-facing time uses `⋮`, never `:`.** 12⋮12, 06⋮39, 09⋮36. Factory `markTime()` converts `:` if the clock still hands you a colon.
+1. Pair = `.daily` and `.energy` the same local day. Then claim. One claim per day.
+2. Base 1 £. Clock: **12⋮12 ×12**. **12⋮21 · 21⋮12 · 21⋮21 · 06⋮39 · 09⋮36 ×2**. Else ×1.
+3. `09⋮63` is not a clock. Use 06⋮39.
+4. Best × of the day is what you claim. Catch does not pay. Claim does.
+5. Streak = consecutive claim-days. Iris = days, cap 12. At 3 · 6 · 9 · 12 add **+1 £**, not multiplied.
+6. Discord cannot run CSS. GIF + STREAK field. Buttons Secondary. Time is `⋮`.
 
 ## Factories (in `wh-cards.js`)
 
 ```js
 await sendCard(message, cards.pound({
-  displayName, tag, pound: 0, streak: 12, xp: 48, issuer: 'Wormhole',
+  displayName, tag, pound: 13, streak: 12, xp: 12, issuer: 'Wormhole',
 }), { personal: true, gif: true });
 
 await sendCard(message, cards.streakOn({
-  displayName, fromStreak: 11, toStreak: 12, pound: 0, xp: 48,
+  displayName, fromStreak: 11, toStreak: 12, pound: 0, xp: 0,
 }), { gif: true });
 
 await sendCard(message, cards.energy({
-  hhmm: '12⋮12', kind: 'CREST', mult: 12, xp: 12,
+  hhmm: '12⋮12', kind: 'STAMP', mult: 12, needDaily: true,
+}), { gif: true });
+
+await sendCard(message, cards.claim({
+  amount: 13, mult: 12, streak: 12, bonus: 1,
 }), { gif: true });
 ```
 
-`cards.energy` will also accept `'12:12'` and print `12⋮12`. Copy in `wh-cards.js` is canonical. Number bible is `number-bible.md`. Shape first.
+Wire: `.£` → pound. `.daily` → streakOn (no £). `.energy` → energy (no £). When pair is ready, button **Claim** → `cards.claim`.
 
-## Wire order
-
-1. `.£` / `.e` → `cards.pound` (kills the pixel essay)
-2. `.daily` → `cards.streakOn` on the £ book (0 £)
-3. `.energy` → `cards.energy` catch (0 £, XP from bible, time with ⋮)
-4. Leave `.$` as `cards.balance` (WH)
-
-Prefix `.£` is personal: delete after 20s. Optional slash `/e` ephemeral.
-
-Mocks `33-pound.png` `34-streak.png` `14-energy.png` are brand intent. Discord ships structure + GIF + this copy.
+Prefix `.£` personal: delete after 20s.

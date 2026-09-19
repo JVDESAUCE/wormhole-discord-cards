@@ -272,7 +272,7 @@ const cards = {
         { label: 'ISSUER', value: issuer || 'Wormhole' },
         { label: 'TAG', value: tag || '—' },
       ],
-      footer: 'Table not set. Streak is a picture. Catch does not mint £.',
+      footer: 'Pair pays. Clock multiplies. Streak +1 £ at 3 · 6 · 9 · 12.',
       media: 'thumb',
     });
   },
@@ -283,14 +283,14 @@ const cards = {
       kicker: '12⋮12am · STREAK',
       title: 'Activated',
       amount: pounds(pound),
-      body: `${fromStreak} → ${toStreak}. Rings compound. £ does not.`,
+      body: `${fromStreak} → ${toStreak}. Need .energy today, then claim.`,
       fields: [
         { label: 'STREAK', value: `${fromStreak} → ${toStreak}` },
         { label: 'IRIS', value: String(iris(toStreak)) },
-        { label: 'XP', value: String(xp || 0) },
+        { label: 'PAIR', value: 'daily on' },
         { label: 'NAME', value: displayName || '—' },
       ],
-      footer: 'Daily is a picture. Table not set. No £ from a heartbeat.',
+      footer: 'Heartbeat. £ waits for the pair.',
       media: 'thumb',
     });
   },
@@ -529,19 +529,36 @@ const cards = {
     });
   },
 
-  energy({ hhmm, kind, mult, xp = 0 }) {
+  energy({ hhmm, kind, mult, xp = 0, needDaily = false }) {
     return build({
       accent: ACCENT,
       kicker: '12⋮12am · CATCH',
       title: kind || 'Catch',
       amount: `×${mult ?? 1}`,
-      body: `${markTime(hhmm)} ${kind || ''}. XP +${xp || 0}. £ 0.`,
+      body: `${markTime(hhmm)} ${kind || ''}. Best × waits. ${needDaily ? 'Need .daily.' : 'Pair ready — claim.'}`,
       fields: [
-        { label: 'SHAPE', value: kind || '—' },
-        { label: 'XP', value: `+${xp || 0}` },
-        { label: '£', value: '0' },
+        { label: 'SHAPE', value: markTime(hhmm) },
+        { label: 'BEST', value: `×${mult ?? 1}` },
+        { label: 'PAIR', value: needDaily ? 'need .daily' : 'ready' },
       ],
-      footer: 'Shape first. Table not set. £ does not mint.',
+      footer: 'Catch does not pay. Pair pays. 09⋮63 is not a clock.',
+      media: 'thumb',
+    });
+  },
+
+  claim({ amount, mult, streak, bonus = 0 }) {
+    return build({
+      accent: OK,
+      kicker: '12⋮12am · CLAIM',
+      title: 'Claimed',
+      amount: pounds(amount),
+      body: `×${mult ?? 1}${bonus ? ` · streak ${streak} +${bonus} £` : ''}.`,
+      fields: [
+        { label: 'STREAK', value: `${streak} · iris ${iris(streak)}` },
+        { label: 'CLOCK', value: `×${mult ?? 1}` },
+        { label: 'BONUS', value: bonus ? `+${bonus} £` : '—' },
+      ],
+      footer: 'One claim per day. Milestone is not multiplied.',
       media: 'thumb',
     });
   },
@@ -716,9 +733,10 @@ const cards = {
       kicker: 'WORMHOLE · HELP',
       title: 'Player commands',
       body: [
-        '`.£` `.e` — your £ · streak picture',
-        '`.energy` — catch the minute · 12⋮12 · XP, 0 £',
-        '`.daily` — streak activation · 0 £',
+        '`.£` `.e` — your £ after claims',
+        '`.daily` — stamp the day · no £ alone',
+        '`.energy` — catch the minute · 12⋮12 ×12',
+        'claim — pair pays 1 £ × clock',
         '`.$` `/balance` — frozen WH',
         '`.shop` — catalogue',
         '`.inventory` — owned',
@@ -729,7 +747,7 @@ const cards = {
         '`.node <id>` — lattice node',
         '`.proof` — attach evidence',
       ].join('\n'),
-      footer: 'Staff: .drop .award .take. Two books. Catch does not mint.',
+      footer: 'Staff: .drop .award .take. Two books. Pair pays £. Clock multiplies.',
     });
   },
 

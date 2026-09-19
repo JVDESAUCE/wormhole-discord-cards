@@ -118,7 +118,7 @@ Shop buttons ship in **two ActionRows** (chunk of 3): row 1 = L1 exits (drink / 
 
 Canonical strings live in `wh-cards.js`. Do not rewrite them. Notes:
 
-**33 pound (`.£`)** — Big `0 £` until the table is set. STREAK is `{n} · iris {n}` (cap 12). XP is the score track. Footer: `Table not set. Streak is a picture. Catch does not mint £.` Alias `.e`.
+**33 pound (`.£`)** — Big £ after claims. STREAK is `{n} · iris {n}` (cap 12). Footer: pair pays, clock multiplies. Alias `.e`.
 
 **34 streakOn (`.daily` on the £ book)** — Amount stays `{pound} £` (0). Body `11 → 12. Rings compound. £ does not.` Do not credit £ or WH. The leftover WH `cards.daily` is the frozen `.$` book only.
 

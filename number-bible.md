@@ -1,62 +1,49 @@
-# 12⋮12am number bible — `.energy` catch
+# 12⋮12am — short table
 
-**Updated:** 2026-09-19 · **By:** grok · **Status:** proposed
-**Rule:** shape first. Value second. Justification does not approve. £ never mints from a catch.
+**Updated:** 2026-09-19 · **By:** grok  
+**Rule:** pair pays. Clock multiplies. Streak adds a flat +1 £ at 3 · 6 · 9 · 12. Time uses **⋮**.
 
-## The mark
+## Pair
 
-Player-facing time uses **`⋮`**, never `:`. That is the brand (12⋮12am).
+`.daily` + `.energy` the same local day → **claim**.
 
-Internal keys may still be `HH:MM`. Factory `markTime()` converts. Examples in this file are already shown.
+Base = **1 £**.
 
-## Sacred marks
+Neither command pays alone. One claim per day.
 
-3 · 6 · 9 · 12 on the clock. 0 is the face (12 at midnight). 1 and 2 compose 12.
+## Clock
 
-## Shape, not just the number
+| Time | × |
+|---|---|
+| 12⋮12 | 12 |
+| 12⋮21 | 2 |
+| 21⋮12 | 2 |
+| 21⋮21 | 2 |
+| 06⋮39 | 2 |
+| 09⋮36 | 2 |
+| anything else | 1 |
 
-| Shape | Example | Fit | × |
-|---|---|---|---|
-| Crest — 12 twice | 12⋮12, 00⋮00 | CREST | 12 |
-| 12 reversed / stacked | 12⋮21, 21⋮12, 21⋮21 | ECHO | 9 |
-| Palindrome HHMM | 03⋮30, 11⋮11, 04⋮40 | LOOP | 6 |
-| Hour = minute on a mark | 03⋮03, 06⋮06, 09⋮09 | DOUBLE | 6 |
-| 6 rotated is 9 | 06⋮39 ↔ 09⋮36 | ROTATE | 3 |
-| Hour and minute both on a mark | 03⋮12, 18⋮09 | ALIGN | 2 |
-| Hour *or* minute *or* date on a mark | 12⋮04, month 9 | PULSE | 1.5 |
-| No fit | 14⋮22 in January | OPEN | 1 |
+`09⋮63` is **not a clock**. Minute 63 does not exist. That 6↔9 thought is `06⋮39`.
 
-Highest fit wins. Tiers do not multiply each other.
+Best × of the day is what you claim. Hunt 12⋮12 before claiming if you can.
 
-12⋮21 is a palindrome *and* an echo. Echo wins.
+Catch itself mints **0 £**. The claim mints.
 
-## 6 ↔ 9
+## Streak
 
-6 and 9 are one glyph turned 180°. Swap every 6 with 9 and every 9 with 6. If that swap is still a clock time, the two minutes are a pair.
+Consecutive **claim-days**. Skip a day → reset.
 
-- 06⋮39 ↔ 09⋮36
-- 09⋮06 ↔ 06⋮09
+Iris rings = days, cap 12.
 
-Both hour and minute must already sit on a mark. 06⋮49 has a 9 but 49 is not a mark, so it stays PULSE. 16⋮09 is PULSE.
+On days **3 · 6 · 9 · 12**, add **+1 £**. Not multiplied.
 
-A lone 6 (16⋮00) is not a pair. 06⋮06 has no 9, so it is DOUBLE, not ROTATE.
-
-## Date
-
-Month or day in 3 · 6 · 9 · 12 = date fit. Turns OPEN into PULSE.
-12/12, 9/9, 6/6, 3/3 = date crest. Bumps one tier. Cap ×12.
-
-September is month 9, so a miss this month is date-only PULSE. The clock itself is still OPEN. Iris stays quiet unless the digits fit.
-
-## Ledger
-
-XP = the multiplier (score).
-£ = 0. Table not set. Feeling/catch does not pay the till.
-One `.energy` per local minute.
+12-streak + 12⋮12 = 12 + 1 = **13 £**. Not 144.
 
 ## Player copy
 
-`.£` = balance.
-`.energy` = catch this minute.
-`.daily` = streak picture.
-Time shown as 12⋮12.
+`.daily` = stamp the day.  
+`.energy` = catch this minute.  
+Claim = take today's £.  
+`.£` = the book.
+
+WH (`.$`) is a different book. Do not mix.

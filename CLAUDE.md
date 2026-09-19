@@ -24,19 +24,21 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 ## Hard rules (do not “improve” these away)
 
 1. `.£` is the **balance**. Big number. Streak = iris count, not extra £.
-2. `.energy` catch **must show `0 £`**. XP is the score track. `coinsPerHour` stays 0.
-3. `.daily` on the £ book is streak activation. **0 £.** Rings compound. £ does not.
-4. Two ledgers. Lattice / catch / streak ≠ bot WH. `.curtrs` is the WH ledger only.
-5. L1 vs L2 on the WH shop. Drink / 1212.is code / Dragon12 slot = L1. Roles = L2.
-6. No wallets, no whitelist card, no seed phrases. `.whitelist` stays off.
-7. No react card. Reacts credit the WH ledger silently.
-8. No people-profiles beyond Discord mention + public display name + balances.
-9. Wu Wel (@12wuwelbegood) is not 小偉. Do not merge.
-10. Buttons: `ButtonStyle.Secondary` only. No blurple, no emoji on labels.
-11. GIF animates. Digits do not.
-12. Do not print a 1212.is discount code, a drop password, or a wallet.
-13. £ is £nergy, not sterling. One footer line is enough.
-14. Player-facing time is `12⋮12`, never `12:12`. `cards.energy` runs `markTime()`.
+2. `.energy` catch **does not pay**. Pair (`.daily` + `.energy`) claims `1 £ × clock`. `coinsPerHour` stays 0.
+3. `.daily` stamps the day. **0 £** until claim.
+4. Clock: 12⋮12 ×12. 12⋮21 · 21⋮12 · 21⋮21 · 06⋮39 · 09⋮36 ×2. Else ×1. `09⋮63` is not a clock.
+5. Streak +1 £ at 3 · 6 · 9 · 12. Not multiplied. Skip a day, reset.
+6. Two ledgers. Lattice / catch / streak ≠ bot WH. `.curtrs` is the WH ledger only.
+7. L1 vs L2 on the WH shop. Drink / 1212.is code / Dragon12 slot = L1. Roles = L2.
+8. No wallets, no whitelist card, no seed phrases. `.whitelist` stays off.
+9. No react card. Reacts credit the WH ledger silently.
+10. No people-profiles beyond Discord mention + public display name + balances.
+11. Wu Wel (@12wuwelbegood) is not 小偉. Do not merge.
+12. Buttons: `ButtonStyle.Secondary` only. No blurple, no emoji on labels.
+13. GIF animates. Digits do not.
+14. Do not print a 1212.is discount code, a drop password, or a wallet.
+15. £ is £nergy, not sterling. One footer line is enough.
+16. Player-facing time is `12⋮12`, never `12:12`. `cards.energy` runs `markTime()`.
 
 ## Stack
 
@@ -52,7 +54,7 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 2. Add `wh-cards.js`. Map Mongo member → DTO (`pound`, `streak`, `xp`, `issuer`, plus existing WH `balance`).
 3. **Swap `.£` / `.e` to `cards.pound`.** Kill the pixel essay.
 4. Swap `.daily` on the £ book to `cards.streakOn`. Do not credit £. If WH daily is still live, keep `cards.daily` on the `.$` book only.
-5. Swap `.energy` to `cards.energy` catch (`hhmm`, `kind`, `mult`, `xp`). Always £ 0. Print `12⋮12`, never `12:12`.
+5. Swap `.energy` to `cards.energy` catch (`hhmm`, `kind`, `mult`). No £ on the catch card. Pair + `cards.claim` pays.
 6. Then WH surface: `.$` `.shop` `.buy` `.inventory` `.leaderboard` `.curtrs` `.drop` `.pick` `.give` `.award` `.take` `.node` `.proof`
 7. Add slash `/balance` (ephemeral V2). Keep prefix `.`
 8. Wire shop buttons `wh:buy:<id>` and L1 confirm `wh:confirm:<id>` for price ≥ 1000.

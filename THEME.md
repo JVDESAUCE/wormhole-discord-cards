@@ -134,7 +134,7 @@ On web the mark is three dots in the digit row (`assets/digits.svg#mark`). On Di
 | £nergy | £ | Branded card. Iris. Glyphs. | `cards.pound` `streakOn` `energy` |
 | Frozen WH | WH | Separate surface if shown | `cards.balance` and the WH catalogue |
 
-`.£` is a **big number**, not a paragraph. Catch never mints £. Streak is a picture.
+`.£` is a **big number** after a **pair claim**. Catch never pays alone. Streak is iris + a flat +1 £ at 3 · 6 · 9 · 12.
 
 ---
 
