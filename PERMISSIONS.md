@@ -4,6 +4,8 @@
 
 These five commands work for **every guild member**. Not staff-only. Not a role. Not a toggle.
 
+Channels can still be limited on the bank Commands desk. Roles cannot.
+
 | Type this | Same as | Card |
 |---|---|---|
 | `.£` | `.e` `/e` | pile |
