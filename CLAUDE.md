@@ -23,38 +23,40 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 
 ## Hard rules (do not “improve” these away)
 
-1. `.£` is the **balance**. Big number. Streak = iris count, not extra £.
-2. `.energy` catch **does not pay**. Pair (`.daily` + `.energy`) claims `1 £ × clock`. `coinsPerHour` stays 0.
-3. `.daily` stamps the day. **0 £** until claim.
-4. Clock: 12⋮12 ×12. 12⋮21 · 21⋮12 · 21⋮21 · 06⋮39 · 09⋮36 ×2. Else ×1. `09⋮63` is not a clock.
-5. Streak +1 £ at 3 · 6 · 9 · 12. Not multiplied. Skip a day, reset.
-6. Two ledgers. Lattice / catch / streak ≠ bot WH. `.curtrs` is the WH ledger only.
+1. `.£` is the **pile**. Big number. Fire = iris count. Not extra £ by itself.
+2. `.daily` + `.energy` the same local day **auto-pays**. No Claim button. `coinsPerHour` stays 0.
+3. `.daily` alone: "You're in. Now hit .energy." `.energy` alone: "Caught. Now hit .daily."
+4. Clock: 12⋮12 = 12 £ (jackpot). 12⋮21 · 21⋮12 · 21⋮21 · 06⋮39 · 09⋮36 = 2 £ (cool). Else 1 £. `09⋮63` is not a clock.
+5. Fire +1 £ treat at 3 · 6 · 9 · 12. Not multiplied. Skip a day, fire dies.
+6. Two ledgers. `.curtrs` is the WH ledger only.
 7. L1 vs L2 on the WH shop. Drink / 1212.is code / Dragon12 slot = L1. Roles = L2.
 8. No wallets, no whitelist card, no seed phrases. `.whitelist` stays off.
 9. No react card. Reacts credit the WH ledger silently.
 10. No people-profiles beyond Discord mention + public display name + balances.
 11. Wu Wel (@12wuwelbegood) is not 小偉. Do not merge.
-12. Buttons: `ButtonStyle.Secondary` only. No blurple, no emoji on labels.
+12. Buttons: `ButtonStyle.Secondary` only, except Bank which is **Link** to `https://bank.1212.is`.
 13. GIF animates. Digits do not.
 14. Do not print a 1212.is discount code, a drop password, or a wallet.
 15. £ is £nergy, not sterling. One footer line is enough.
-16. Player-facing time is `12⋮12`, never `12:12`. `cards.energy` runs `markTime()`.
+16. Player-facing time is `12⋮12`, never `12:12`. `markTime()` converts.
+17. Command cards last **3 seconds**. `sendCard` deletes unless `{ stay: true }`. Stay for live drop and L1 till receipts.
+18. Player copy: Fire, Treat, Jackpot, Cool. Never XP, pair, claim, iris, gold, mana.
 
 ## Stack
 
 - discord.js **14.16+** (`ContainerBuilder`, `MessageFlags.IsComponentsV2`).
 - Flag: `1 << 15` = `32768`. Ephemeral combo: `32768 | 64` = `32832`.
 - Once V2 is set: **no `content`, no `embeds`.**
-- Prefix cannot be ephemeral. Personal prefix → delete bot reply after **20s**. Slash `/balance` is the stay-visible private WH card. Optional `/e` for `.£`.
+- Prefix cannot be ephemeral. Personal prefix → delete bot reply after **3s**. Slash `/balance` is the stay-visible private WH card. Optional `/e` for `.£`.
 - Attach `wormhole.gif` as `attachment://wormhole.gif` only on cards whose spec says `thumb` or `hero`. Do not hotlink.
 
 ## First diffs
 
 1. Upgrade discord.js if `ContainerBuilder` is missing.
-2. Add `wh-cards.js`. Map Mongo member → DTO (`pound`, `streak`, `xp`, `issuer`, plus existing WH `balance`).
-3. **Swap `.£` / `.e` to `cards.pound`.** Kill the pixel essay.
-4. Swap `.daily` on the £ book to `cards.streakOn`. Do not credit £. If WH daily is still live, keep `cards.daily` on the `.$` book only.
-5. Swap `.energy` to `cards.energy` catch (`hhmm`, `kind`, `mult`). No £ on the catch card. Pair + `cards.claim` pays.
+2. Add `wh-cards.js`. Map Mongo member → DTO (`pound`, `streak`, `issuer`, plus existing WH `balance`).
+3. **Swap `.£` / `.e` to `cards.pound`.** Kill the pixel essay. Bank link is automatic.
+4. Swap `.daily` on the £ book to `cards.streakOn` (wait) or `cards.got` (second tap). Do not show a Claim button.
+5. Swap `.energy` to `cards.energy` (wait) or `cards.got` (second tap / top-up). Time is `12⋮12`.
 6. Then WH surface: `.$` `.shop` `.buy` `.inventory` `.leaderboard` `.curtrs` `.drop` `.pick` `.give` `.award` `.take` `.node` `.proof`
 7. Add slash `/balance` (ephemeral V2). Keep prefix `.`
 8. Wire shop buttons `wh:buy:<id>` and L1 confirm `wh:confirm:<id>` for price ≥ 1000.
@@ -114,15 +116,16 @@ Do **not** design: react, whitelist, animated digits, blurple Primary, emoji, �
 ## Acceptance
 
 1. `ContainerBuilder` + `IsComponentsV2` and **zero** `content`/`embeds`.
-2. `.£` is a **big £ number**, not an essay. Streak field includes iris count.
-3. `.daily` streakOn credits **0 £**.
-4. `.energy` prints **£ 0** and an XP figure from the number bible.
+2. `.£` is a **big £ number**, not an essay. FIRE field is the streak days.
+3. `.daily` first credits **0 £** and says "Now hit .energy."
+4. Second tap (`daily`+`energy`) auto-pays. `cards.got` prints **+N £**. No Claim button.
 5. `.$` still prints WH. Never on a £ card.
 6. Kicker: £ book `12⋮12am · SLOT`. WH book `WORMHOLE · SLOT`.
 7. GIF only where the table says. Digits static.
-8. Buttons Secondary, `wh:` ids.
+8. Buttons Secondary, `wh:` ids. Bank is Link to https://bank.1212.is on **every** card.
 9. `.whitelist` still off, no card.
 10. React still silent.
-11. Personal prefix cards delete after 20s.
-12. L1 buy receipts are public.
+11. Command cards delete after **3s**. Live drop and L1 receipts `{ stay: true }`.
+12. L1 buy receipts are public and stay.
 13. Catch time prints `12⋮12`, never `12:12`.
+14. Player copy uses Fire / Treat / Jackpot / Cool. Not XP, pair, claim.

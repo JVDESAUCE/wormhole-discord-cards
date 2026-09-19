@@ -1,49 +1,62 @@
-# 12⋮12am — short table
+# 12⋮12am — how it pays
 
 **Updated:** 2026-09-19 · **By:** grok  
-**Rule:** pair pays. Clock multiplies. Streak adds a flat +1 £ at 3 · 6 · 9 · 12. Time uses **⋮**.
+**Player words:** Fire, Treat, Jackpot, Cool. Time uses **⋮**.
 
-## Pair
+A 12-year-old should be able to say this out loud.
 
-`.daily` + `.energy` the same local day → **claim**.
+## Every day
 
-Base = **1 £**.
+Hit **`.daily`** and **`.energy`**. That is **1 £**. Fire goes up 1.
 
-Neither command pays alone. One claim per day.
+One collect per day. The second command pays. No Claim button.
+
+Miss a day → fire dies (back to 0).
 
 ## Clock
 
-| Time | × |
-|---|---|
-| 12⋮12 | 12 |
-| 12⋮21 | 2 |
-| 21⋮12 | 2 |
-| 21⋮21 | 2 |
-| 06⋮39 | 2 |
-| 09⋮36 | 2 |
-| anything else | 1 |
+| Time | Name | £ |
+|---|---|---|
+| 12⋮12 | Jackpot | 12 |
+| 12⋮21 | Cool | 2 |
+| 21⋮12 | Cool | 2 |
+| 21⋮21 | Cool | 2 |
+| 06⋮39 | Cool | 2 |
+| 09⋮36 | Cool | 2 |
+| anything else | — | 1 |
 
 `09⋮63` is **not a clock**. Minute 63 does not exist. That 6↔9 thought is `06⋮39`.
 
-Best × of the day is what you claim. Hunt 12⋮12 before claiming if you can.
+Best minute of the day wins. If you already got 1 £, a cooler minute **tops up** the difference. Hunt 12⋮12.
 
-Catch itself mints **0 £**. The claim mints.
+## Fire
 
-## Streak
+Days in a row you did both.
 
-Consecutive **claim-days**. Skip a day → reset.
+On Fire **3 · 6 · 9 · 12**, extra Treat **+1 £**. Not multiplied.
 
-Iris rings = days, cap 12.
+Fire 12 + jackpot = 12 + 1 = **13 £**. Not 144.
 
-On days **3 · 6 · 9 · 12**, add **+1 £**. Not multiplied.
+Rings = fire days, cap 12.
 
-12-streak + 12⋮12 = 12 + 1 = **13 £**. Not 144.
+## Cards
+
+Last **3 seconds**. Every card has a **Bank** link: https://bank.1212.is
+
+| Command | Card says |
+|---|---|
+| `.daily` first | You're in. Now hit .energy. |
+| `.energy` first | Caught. Now hit .daily. |
+| both | Got it. +N £. Fire N. |
+| `.£` | Your pile. Fire. |
 
 ## Player copy
 
-`.daily` = stamp the day.  
+`.daily` = start today.  
 `.energy` = catch this minute.  
-Claim = take today's £.  
-`.£` = the book.
+`.£` = the pile.  
+Fire = days in a row.  
+Treat = extra 1 £ at 3 · 6 · 9 · 12.  
+Jackpot = 12⋮12.
 
 WH (`.$`) is a different book. Do not mix.

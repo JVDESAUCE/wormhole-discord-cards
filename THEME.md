@@ -10,7 +10,7 @@ Two surfaces. One language. Do not invent a third.
 | Surface | Motion | Type | Rings | Time |
 |---|---|---|---|---|
 | **Web** | CSS iris + 6↔9 turn | Syne / IBM Plex | Drawn. Cap 12. | Glyph `⋮` (three dots) |
-| **Discord** | `wormhole.gif` only | Discord markdown | STREAK / IRIS field | Text `12⋮12` |
+| **Discord** | `wormhole.gif` only | Discord markdown | FIRE field | Text `12⋮12` |
 
 Discord cannot run this CSS. Do not fake cards as PNG in chat. Web must not look like a Discord embed.
 
@@ -118,7 +118,7 @@ On web the mark is three dots in the digit row (`assets/digits.svg#mark`). On Di
 
 | Wanted | Web | Discord |
 |---|---|---|
-| Iris / streak picture | `.iris` rings, one per day, cap 12 | Field `STREAK n · iris n` |
+| Iris / fire picture | `.iris` rings, one per day, cap 12 | Field `FIRE n` |
 | Wormhole | Optional. GIF is identity, not the ring. | `wormhole.gif` Section thumbnail |
 | 6 ↔ 9 | `.glyph-turn-six` / `.glyph-turn-nine` | Static digits. Do not animate markdown. |
 | Big number | CSS. Static. | `# 0 £` static |
@@ -134,7 +134,7 @@ On web the mark is three dots in the digit row (`assets/digits.svg#mark`). On Di
 | £nergy | £ | Branded card. Iris. Glyphs. | `cards.pound` `streakOn` `energy` |
 | Frozen WH | WH | Separate surface if shown | `cards.balance` and the WH catalogue |
 
-`.£` is a **big number** after a **pair claim**. Catch never pays alone. Streak is iris + a flat +1 £ at 3 · 6 · 9 · 12.
+`.£` is a **big number**. Two taps a day pay. Cool minutes pay 2 £. 12⋮12 pays 12 £. Fire is iris + a flat Treat +1 £ at 3 · 6 · 9 · 12. Cards last 3 seconds. Bank link on every card.
 
 ---
 

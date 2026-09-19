@@ -125,6 +125,23 @@
   color: var(--wh-muted);
 }
 
+.wh-bank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.75rem;
+  margin-top: 1rem;
+  border: 1px solid var(--wh-border);
+  border-radius: var(--wh-radius-sm);
+  color: var(--wh-fg);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.wh-bank:hover {
+  background: var(--wh-raised);
+}
+
 .wh-btn {
   display: inline-flex;
   align-items: center;

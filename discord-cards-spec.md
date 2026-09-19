@@ -15,7 +15,7 @@ Copy in `wh-cards.js` is canonical. This file is the contract around it.
 |---|---|
 | Animated balance | `wormhole.gif` as Section **thumbnail** (or MediaGallery on `.drop`). The **number is static markdown**. |
 | Custom font / CSS card | Impossible. No CSS in chat. |
-| Private `.$` | Prefix **cannot** be ephemeral. (a) public card, (b) public then delete after 20s, (c) slash `/balance` with `Ephemeral \| IsComponentsV2`. Do **(b) + (c)**. |
+| Private `.$` | Prefix **cannot** be ephemeral. (a) public card, (b) public then delete after 3s, (c) slash `/balance` with `Ephemeral \| IsComponentsV2`. Do **(b) + (c)**. |
 | Blurple Mee6 embed | Do not. Accent is silver `#c9ccd4`. Buttons are **Secondary**. |
 
 `IS_COMPONENTS_V2` = `1 << 15` = `32768`. Combined with ephemeral: `32832`.
@@ -41,14 +41,15 @@ Copy in `wh-cards.js` is canonical. This file is the contract around it.
 
 ```
 accent     0xc9ccd4    identity / lists / node / proof / give
-ok         0x7d9b86    credit, claim, buy, award, pick
-warn       0xb9a27a    wait, sold out, needs role, already claimed, confirm
+ok         0x7d9b86    credit, got, buy, award, pick
+warn       0xb9a27a    wait, sold out, needs role, already in, confirm
 bad        0xb57a76    error, burn (.take), shop off, drop gone
 ```
 
 Copy rules:
 
-- Kicker, £ book: `-# 12⋮12am · .£` / `STREAK` / `CATCH`
+- Kicker, £ book: `-# 12⋮12am · .£` / `DAILY` / `CATCH` / `GOT`
+- Meta: `-# FIRE` then the day count.
 - Kicker, WH book: `-# WORMHOLE · BALANCE` (Discord subtext). Always `WORMHOLE · <SLOT>`.
 - Title: `##` heading.
 - Amount, £ book: `# 0 £` (comma, unit **£**, unicode minus `−` on debits).
@@ -75,10 +76,11 @@ Attach `wormhole.gif` **only** when media is `thumb` or `hero`.
 
 ## 2. Visibility
 
-`personal` = prefix reply, delete after **20s**. Slash = ephemeral, do not delete.  
-`public` = stays. Never delete play / L1 receipts — staff need to see the till claim.
+`personal` = prefix reply, delete after **3s**. Slash = ephemeral, do not delete.  
+`public` command cards also delete after 3s unless `{ stay: true }`. Stay for live drop and L1 till receipts.
 
-See `CLAUDE.md` catalogue table. Factory: `sendCard(target, container, { personal, gif })`.
+See `CLAUDE.md` catalogue table. Factory: `sendCard(target, container, { personal, gif, stay })`.
+`build()` appends a Bank Link button (`https://bank.1212.is`) if one is not already present.
 
 ---
 
@@ -118,11 +120,11 @@ Shop buttons ship in **two ActionRows** (chunk of 3): row 1 = L1 exits (drink / 
 
 Canonical strings live in `wh-cards.js`. Do not rewrite them. Notes:
 
-**33 pound (`.£`)** — Big £ after claims. STREAK is `{n} · iris {n}` (cap 12). Footer: pair pays, clock multiplies. Alias `.e`.
+**33 pound (`.£`)** — Big pile. FIRE is `{n}`. Footer: Don't miss tomorrow. Alias `.e`. Bank link. Delete in 3s.
 
-**34 streakOn (`.daily` on the £ book)** — Amount stays `{pound} £` (0). Body `11 → 12. Rings compound. £ does not.` Do not credit £ or WH. The leftover WH `cards.daily` is the frozen `.$` book only.
+**34 streakOn (`.daily` on the £ book)** — "You're in. Now hit .energy." FIRE is current days, not incremented yet. Do not credit £. The leftover WH `cards.daily` is the frozen `.$` book only.
 
-**14 energy (`.energy`)** — Catch, not hours. Amount `×{mult}`. Always `£ 0`. XP from `number-bible.md`. Highest fit wins. Body time is `12⋮12 CREST`, never a colon.
+**14 energy (`.energy`)** — Wait card if they still need `.daily`. If this was the second tap, use `cards.got` instead: **+N £**, Jackpot if 12⋮12. Time is `12⋮12`, never a colon.
 
 **01 balance** — Frozen WH. Fields STREAK / TAG. Footer: `Hours do not mint. This is the frozen bot ledger.`
 
@@ -153,7 +155,7 @@ Exit copy: `rooom_drink` → till · `store_discount` → 1212.is order · `drag
 
 **13 curtrs** — Last 8. `kind` stays `daily|react|invite|drop|pick|give|buy|award|welcome`. Unicode minus.
 
-**14 energy** — Catch card on the £ book. Amount `×{mult}`. Fields SHAPE / XP / £. Always `£ 0`. Time printed with `⋮`. If someone later “optimises” this to a credit, that is a protocol break. Reject it.
+**14 energy** — Wait: clock + "Now hit .daily." Pay: `cards.got` with +N £. Time printed with `⋮`. Bank on every card. Delete in 3s.
 
 **15 node** — Title-gated. Body is the node’s L1 line, or L2 line labelled as constructed. Never present L2 as physics.
 
@@ -253,16 +255,17 @@ A card is done when:
 4. Amounts are `{n} WH` with comma and unicode minus.
 5. Footer states the protocol line (mint / till / two ledgers / hours).
 6. GIF only where the table says.
-7. Buttons Secondary, `wh:` ids.
-8. `.energy` shows **0 £**. Time is `12⋮12`, never a colon.
+7. Buttons Secondary except Bank (Link). `wh:` ids on shop.
+8. Second tap of `.daily`+`.energy` prints **+N £** via `cards.got`. Wait cards print 0 £. Time is `12⋮12`.
 9. `.whitelist` still off, no card.
 10. React still silent.
+11. Command cards delete after 3s. Bank link on every card.
 
 ---
 
 ## 9. Questions for the operator (do not guess)
 
-- Delete-after on personal prefix: 20s, or keep the old instant delete for `.$` only?
+- Delete-after on command cards is **3s**. Live drop and L1 receipts stay. Confirm.
 - Confirm step on all L1 SKUs, or only price ≥ 1000?
 - Drop card: edit-in-place to CLOSED, yes?
 - `/balance` this week, or prefix-only until slash is wired?

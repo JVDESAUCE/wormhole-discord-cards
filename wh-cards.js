@@ -2,21 +2,23 @@
 
 /**
  * WORMHOLE Components V2 card factory
- * From: grok · 2026-09-18 · for Claude / jvde_5025
+ * From: grok · 2026-09-19 · for Claude / jvde_5025
  *
  * discord.js 14.16+
  *
  *   const { sendCard, cards, gifFile } = require('./wh-cards');
- *   await sendCard(message, cards.balance(dto), { personal: true, gif: true });
+ *   await sendCard(message, cards.pound(dto), { personal: true, gif: true });
  *
  * DTO
- *   member: { id, tag, displayName, balance, pound, streak, xp, lastDaily, issuer }
+ *   member: { id, tag, displayName, balance, pound, streak, lastDaily, issuer }
  *   sku:    { id, name, price, qty, description, requiredRole, grantedRole, l1Kind }
  *   tx:     { kind, amount, createdAt }
  *
  * Two books. .£ is £nergy. .$ is frozen WH.
- * Do not mint £ from a catch or a streak. Do not add a whitelist card.
- * Buttons are Secondary.
+ * Player loop: .daily + .energy the same day auto-pays. No Claim button.
+ * Cards last 3 seconds unless { stay: true } (live drop, L1 receipts).
+ * Every card gets a Bank link to https://bank.1212.is
+ * Buttons are Secondary. Link style only for Bank.
  * Player-facing time is 12⋮12, never a colon. markTime() converts.
  */
 
@@ -44,7 +46,9 @@ const BAD = 0xb57a76;
 
 const V2 = MessageFlags.IsComponentsV2;
 const V2_EPHEMERAL = MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral;
-const PERSONAL_TTL_MS = 20_000;
+const PERSONAL_TTL_MS = 3_000;
+const CARD_TTL_MS = 3_000;
+const BANK_URL = 'https://bank.1212.is';
 const GIF_NAME = 'wormhole.gif';
 const GIF_URL = `attachment://${GIF_NAME}`;
 
@@ -183,16 +187,27 @@ function build({
     for (const group of buttonRows(buttons)) {
       const row = new ActionRowBuilder();
       for (const b of group) {
-        row.addComponents(
-          new ButtonBuilder()
-            .setCustomId(b.id)
-            .setLabel(String(b.label).slice(0, 80))
-            .setStyle(ButtonStyle.Secondary)
-            .setDisabled(Boolean(b.disabled)),
-        );
+        const btn = new ButtonBuilder()
+          .setLabel(String(b.label).slice(0, 80))
+          .setDisabled(Boolean(b.disabled));
+        if (b.url) {
+          btn.setStyle(ButtonStyle.Link).setURL(b.url);
+        } else {
+          btn.setCustomId(b.id).setStyle(ButtonStyle.Secondary);
+        }
+        row.addComponents(btn);
       }
       c.addActionRowComponents(row);
     }
+  }
+
+  const hasBank = (buttons || []).some((b) => b.url === BANK_URL || b.id === 'bank');
+  if (!hasBank) {
+    c.addActionRowComponents(
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setStyle(ButtonStyle.Link).setURL(BANK_URL).setLabel('Bank'),
+      ),
+    );
   }
 
   return c;
@@ -212,7 +227,7 @@ function isInteraction(target) {
  * @param {{ personal?: boolean, gif?: boolean, files?: object[], edit?: boolean }} [opts]
  */
 async function sendCard(target, container, opts = {}) {
-  const { personal = false, gif = false, files = [], edit = false } = opts;
+  const { personal = false, gif = false, files = [], edit = false, stay = false } = opts;
   const payloadFiles = gif ? [gifFile(), ...files] : files;
   const slash = isInteraction(target);
   const flags = personal && slash ? V2_EPHEMERAL : V2;
@@ -237,8 +252,8 @@ async function sendCard(target, container, opts = {}) {
     sent = await target.reply(payload);
   }
 
-  if (personal && !slash && sent && typeof sent.delete === 'function') {
-    setTimeout(() => sent.delete().catch(() => {}), PERSONAL_TTL_MS);
+  if (!stay && !slash && sent && typeof sent.delete === 'function') {
+    setTimeout(() => sent.delete().catch(() => {}), CARD_TTL_MS);
   }
   return sent;
 }
@@ -259,38 +274,41 @@ function pounds(n) {
   return `${v.toLocaleString('en-GB')} £`;
 }
 
+function plusPounds(n) {
+  return `+${Number(n || 0).toLocaleString('en-GB')} £`;
+}
+
 const cards = {
-  pound({ displayName, tag, pound = 0, streak = 0, xp = 0, issuer = 'Wormhole' }) {
+  pound({ displayName, tag, pound = 0, streak = 0 }) {
     return build({
       accent: ACCENT,
-      kicker: '12⋮12am · .£',
+      kicker: '12⋮12am · BANK',
       title: displayName,
       amount: pounds(pound),
-      fields: [
-        { label: 'STREAK', value: `${streak} · iris ${iris(streak)}` },
-        { label: 'XP', value: String(xp || 0) },
-        { label: 'ISSUER', value: issuer || 'Wormhole' },
-        { label: 'TAG', value: tag || '—' },
-      ],
-      footer: 'Pair pays. Clock multiplies. Streak +1 £ at 3 · 6 · 9 · 12.',
+      fields: [{ label: 'FIRE', value: String(streak || 0) }],
+      footer: "Don't miss tomorrow.",
       media: 'thumb',
     });
   },
 
-  streakOn({ displayName, fromStreak, toStreak, pound = 0, xp = 0 }) {
+  streakOn({ fromStreak, toStreak, fire, event = 'wait-energy', amount, treat = 0, jackpot = false }) {
+    if (event === 'collect' || event === 'upgrade') {
+      return cards.got({
+        amount,
+        fire: fire ?? toStreak,
+        treat,
+        upgrade: event === 'upgrade',
+        jackpot,
+      });
+    }
+    if (event === 'done') return cards.already({ fire: fire ?? toStreak });
     return build({
       accent: OK,
-      kicker: '12⋮12am · STREAK',
-      title: 'Activated',
-      amount: pounds(pound),
-      body: `${fromStreak} → ${toStreak}. Need .energy today, then claim.`,
-      fields: [
-        { label: 'STREAK', value: `${fromStreak} → ${toStreak}` },
-        { label: 'IRIS', value: String(iris(toStreak)) },
-        { label: 'PAIR', value: 'daily on' },
-        { label: 'NAME', value: displayName || '—' },
-      ],
-      footer: 'Heartbeat. £ waits for the pair.',
+      kicker: '12⋮12am · DAILY',
+      title: "You're in",
+      body: 'Now hit .energy.',
+      fields: [{ label: 'FIRE', value: String(fire ?? fromStreak ?? 0) }],
+      footer: 'Gone in 3 seconds.',
       media: 'thumb',
     });
   },
@@ -529,36 +547,57 @@ const cards = {
     });
   },
 
-  energy({ hhmm, kind, mult, xp = 0, needDaily = false }) {
+  energy({ hhmm, kind, fire = 0, event = 'wait-daily', amount, treat = 0, jackpot = false }) {
+    if (event === 'collect' || event === 'upgrade') {
+      return cards.got({
+        amount,
+        fire,
+        treat,
+        upgrade: event === 'upgrade',
+        jackpot: jackpot || kind === 'JACKPOT' || kind === 'crest',
+      });
+    }
+    if (event === 'done') return cards.already({ fire });
     return build({
       accent: ACCENT,
       kicker: '12⋮12am · CATCH',
-      title: kind || 'Catch',
-      amount: `×${mult ?? 1}`,
-      body: `${markTime(hhmm)} ${kind || ''}. Best × waits. ${needDaily ? 'Need .daily.' : 'Pair ready — claim.'}`,
-      fields: [
-        { label: 'SHAPE', value: markTime(hhmm) },
-        { label: 'BEST', value: `×${mult ?? 1}` },
-        { label: 'PAIR', value: needDaily ? 'need .daily' : 'ready' },
-      ],
-      footer: 'Catch does not pay. Pair pays. 09⋮63 is not a clock.',
+      title: markTime(hhmm),
+      body: 'Now hit .daily.',
+      fields: [{ label: 'FIRE', value: String(fire || 0) }],
+      footer: 'Gone in 3 seconds.',
       media: 'thumb',
     });
   },
 
-  claim({ amount, mult, streak, bonus = 0 }) {
+  got({ amount, fire = 0, treat = 0, upgrade = false, jackpot = false }) {
+    const title = upgrade ? 'Better minute' : jackpot || Number(amount) >= 12 ? 'Jackpot' : 'Got it';
+    const body = treat
+      ? `Fire ${fire}. Treat +${treat} £. Don't miss tomorrow.`
+      : `Fire ${fire}. Don't miss tomorrow.`;
     return build({
       accent: OK,
-      kicker: '12⋮12am · CLAIM',
-      title: 'Claimed',
-      amount: pounds(amount),
-      body: `×${mult ?? 1}${bonus ? ` · streak ${streak} +${bonus} £` : ''}.`,
-      fields: [
-        { label: 'STREAK', value: `${streak} · iris ${iris(streak)}` },
-        { label: 'CLOCK', value: `×${mult ?? 1}` },
-        { label: 'BONUS', value: bonus ? `+${bonus} £` : '—' },
-      ],
-      footer: 'One claim per day. Milestone is not multiplied.',
+      kicker: '12⋮12am · GOT',
+      title,
+      amount: plusPounds(amount),
+      body,
+      fields: [{ label: 'FIRE', value: String(fire) }],
+      footer: 'Gone in 3 seconds.',
+      media: 'thumb',
+    });
+  },
+
+  claim(dto) {
+    return cards.got(dto);
+  },
+
+  already({ fire = 0 }) {
+    return build({
+      accent: WARN,
+      kicker: '12⋮12am · DAILY',
+      title: 'Already in',
+      body: "Come back tomorrow. Don't let the fire die.",
+      fields: [{ label: 'FIRE', value: String(fire) }],
+      footer: 'Gone in 3 seconds.',
       media: 'thumb',
     });
   },
@@ -733,10 +772,11 @@ const cards = {
       kicker: 'WORMHOLE · HELP',
       title: 'Player commands',
       body: [
-        '`.£` `.e` — your £ after claims',
-        '`.daily` — stamp the day · no £ alone',
-        '`.energy` — catch the minute · 12⋮12 ×12',
-        'claim — pair pays 1 £ × clock',
+        '`.£` — your pile',
+        '`.daily` — start today',
+        '`.energy` — catch the clock',
+        'Do both. That\'s £. Miss a day, fire dies.',
+        '12⋮12 is jackpot. Cool minutes pay 2 £.',
         '`.$` `/balance` — frozen WH',
         '`.shop` — catalogue',
         '`.inventory` — owned',
@@ -747,7 +787,7 @@ const cards = {
         '`.node <id>` — lattice node',
         '`.proof` — attach evidence',
       ].join('\n'),
-      footer: 'Staff: .drop .award .take. Two books. Pair pays £. Clock multiplies.',
+      footer: 'Cards last 3 seconds. Bank is bank.1212.is. Staff: .drop .award .take.',
     });
   },
 
@@ -782,6 +822,8 @@ module.exports = {
   V2,
   V2_EPHEMERAL,
   PERSONAL_TTL_MS,
+  CARD_TTL_MS,
+  BANK_URL,
   GIF_URL,
   gifFile,
   fmt,
@@ -791,6 +833,8 @@ module.exports = {
   exitOf,
   iris,
   markTime,
+  pounds,
+  plusPounds,
   build,
   sendCard,
   cards,

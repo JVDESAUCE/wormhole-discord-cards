@@ -16,9 +16,9 @@ Full theme for **web** and **Discord**. Graphics included.
 | Motion | CSS iris, 6↔9 turn | `assets/wormhole.gif` |
 | Type | Syne + IBM Plex | Markdown. No custom font. |
 | Time | Three-dot glyph `⋮` | Text `12⋮12` |
-| Balance | Big **0 £** | `cards.pound` |
-| Streak | Rings, cap 12 | `STREAK n · iris n` |
-| Catch | Glyphs `12⋮12` | `cards.energy` · £ 0 |
+| Pile | Big **£** | `cards.pound` |
+| Fire | Rings, cap 12 | `FIRE n` |
+| Catch | Glyphs `12⋮12` | `cards.energy` / `cards.got` |
 
 ## Graphics
 
@@ -30,10 +30,12 @@ Full theme for **web** and **Discord**. Graphics included.
 
 ## Commands
 
-- `.£` / `.e` — big £. Streak is iris, not extra £.
-- `.daily` — streak activation. 0 £.
-- `.energy` — catch the minute. XP from [`number-bible.md`](number-bible.md). 0 £. Time is **12⋮12**.
+- `.£` / `.e` — your pile. Fire is the picture.
+- `.daily` — you're in. Now `.energy`.
+- `.energy` — catch the clock. Do both, get £. Time is **12⋮12**.
 - `.$` — frozen WH. Separate book.
+
+Cards last **3 seconds**. Every card has **Bank** → https://bank.1212.is
 
 Player-facing time uses **⋮**, never `:`. `markTime()` converts.
 
