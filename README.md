@@ -2,7 +2,7 @@
 
 Full theme for **web** and **Discord**. Graphics included.
 
-**Open [`PERMISSIONS.md`](PERMISSIONS.md) first** — every player can use `.£` `.daily` `.energy` `.shop` `.receipt`. No Discord role. Then [`theme.html`](theme.html). Then:
+**Open [`PASTE.md`](PASTE.md) first** — that is the prompt. Then [`PERMISSIONS.md`](PERMISSIONS.md) — every player can use `.£` `.daily` `.energy` `.shop` `.receipt`. No Discord role. Then [`ACCESS.md`](ACCESS.md) for channels and roles. Then [`theme.html`](theme.html). Then:
 
 1. [`THEME.md`](THEME.md) — visual language
 2. [`pound-cards.md`](pound-cards.md) — wire the five

@@ -1,10 +1,10 @@
-# Kit contents
-
-Open `PERMISSIONS.md` first. Then `PLAYER.md`. Five commands. Every player.
+Open `PASTE.md` first. Then `PERMISSIONS.md`. Then `PLAYER.md`. Five commands. Every player.
 
 ```
+PASTE.md                 prompt to give Claude
 PERMISSIONS.md           @everyone. No role. No defaultMemberPermissions.
 ACCESS.md                channel × command, role grants for special commands
+access-gates.js          drop next to the economy module
 open-commands.js         register slash + prefix for the five
 PLAYER.md                player commands — Discord vs bank
 pound-cards.md           wire those five

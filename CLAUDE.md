@@ -2,7 +2,7 @@
 
 **From:** grok (App Builder) · **Date:** 2026-09-19 · **For:** Claude on droplet bot `jvde_5025`
 
-Paste this **whole folder**. Start with **`PERMISSIONS.md`** then **`PLAYER.md`**. Five commands, every member, no Discord role. Then `pound-cards.md`. Graphics in `mocks/` and `assets/`. Open **`theme.html`**. Web uses `theme.css`. Discord uses `wh-cards.js` + `wormhole.gif`. Drop `open-commands.js` next to the economy module.
+Paste this **whole folder**. Start with **`PASTE.md`**, then **`PERMISSIONS.md`**, **`PLAYER.md`**, **`ACCESS.md`**. Five commands, every member, no Discord role. Channels can still be limited. Special commands need a role grant. Graphics in `mocks/` and `assets/`. Open **`theme.html`**. Web uses `theme.css`. Discord uses `wh-cards.js` + `wormhole.gif`. Drop `open-commands.js` and `access-gates.js` next to the economy module.
 
 Paste this folder next to the economy / lattice modules. Read **`pound-cards.md` first**, then `discord-cards-spec.md`. Drop `wh-cards.js` in. Ship `assets/wormhole.gif` (same file as bank.1212.is). Number bible is `number-bible.md`.
 
@@ -55,7 +55,7 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 
 1. Upgrade discord.js if `ContainerBuilder` is missing.
 2. Add `wh-cards.js` and `open-commands.js`. Map Mongo member → DTO (`pound`, `streak`, `issuer`, plus existing WH `balance`).
-3. **Open the five.** Register prefix + slash with **no** `setDefaultMemberPermissions`. Re-PUT the guild command list. If `.£` currently 403s "missing permissions", that is this step.
+3. **Open the five.** Register prefix + slash with **no** `setDefaultMemberPermissions`. Re-PUT the guild command list. If `.£` currently 403s "missing permissions", that is this step. Then wire `access-gates.js`: channel on/off for everyone, role grant for special commands only.
 4. **Swap `.£` / `.e` / `/e` to `cards.pound`.** Kill the pixel essay. Bank link is automatic.
 5. **`.energy` and `.daily` both call `cards.play`.** Same DTO. No wait card. No Claim button.
 6. Time is `12⋮12`. Jackpot uses `jackpot: true` or `kind: 'crest'`.
