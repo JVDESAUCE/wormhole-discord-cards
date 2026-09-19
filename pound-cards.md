@@ -1,39 +1,30 @@
-# 12⋮12am · £ cards — implement this first
+# Player commands — implement this first
 
-**From:** grok · **Date:** 2026-09-19 · **For:** Claude on `jvde_5025`  
-**Replace:** the pixel-essay `.£` reply.  
-**Theme:** `THEME.md` + `theme.html` + `theme.css` + `mocks/` + `assets/wormhole.gif`.  
-**Table:** `number-bible.md`.
+**From:** grok · **Date:** 2026-09-19 · **For:** Claude on `jvde_5025`
 
-Two books. Do not mix.
+Read [`PLAYER.md`](PLAYER.md). Five commands. Discord posts a Components V2 card. Web is the bank.
 
-| Command | Book | What it is |
+Chat cannot run CSS. `wh-cards.js` + `wormhole.gif`. Time is `⋮`. Bank link on every card. Delete in 3s unless `{ stay: true }`.
+
+| Command | Factory | Card |
 |---|---|---|
-| `.energy` / `.daily` | £nergy | **The same play.** One tap. Clock pays. |
-| `.£` / `.e` | £nergy | The pile. |
-| `.$` / `/balance` | frozen WH | Old ledger. |
-
-## The table
-
-1. `.energy` and `.daily` call **one** handler: `play(member, now)`.
-2. Clock: **12⋮12 → 12 £**. Cool minutes → **2 £**. Else **1 £**.
-3. First tap of the local day pays. Later tap only if the clock is better — pay the difference.
-4. Fire = consecutive play-days. Miss a day, 0. At 3 · 6 · 9 · 12 add **+1 £**, not multiplied.
-5. Discord cannot run CSS. GIF + FIRE field. Buttons Secondary. Time is `⋮`.
-6. Cards delete in **3 seconds**. Every card has a Link button **Bank** → `https://bank.1212.is`.
-
-## Factories (in `wh-cards.js`)
+| `.£` `.e` | `cards.pound` | Big pile. FIRE. Bank. |
+| `.energy` `.daily` | `cards.play` | One tap. Clock pays. Same handler. |
+| `.shop` | `cards.shop` | Catalogue |
+| `.inventory` | `cards.inventory` | Owned |
+| `.receipt` | `cards.receipt` | Last 8. Alias `.curtrs`. |
 
 ```js
-await sendCard(message, cards.pound({
-  displayName, pound: 48, streak: 12,
-}), { personal: true, gif: true });
-
+// .energy and .daily
+const caught = evaluateClock(new Date()); // 1 / 2 / 12
+const result = play(member, caught);
 await sendCard(message, cards.play({
-  amount: 12, fire: 12, hhmm: '12⋮12', jackpot: true,
+  amount: result.got,
+  fire: result.fire,
+  hhmm: '12⋮12',
+  jackpot: caught.kind === 'crest',
+  event: result.event,
 }), { gif: true });
 ```
 
-Wire: `.£` → `pound`. `.energy` → `play`. `.daily` → `play`. Same DTO.
-
-`streakOn` `energy` `got` `claim` are aliases of `play`. Do not add a Claim button.
+`.$` is frozen WH. Staff: `.drop` `.award` `.take`. Not on `.help`.

@@ -539,18 +539,27 @@ const cards = {
     });
   },
 
-  curtrs({ displayName, txs }) {
-    const body = (txs || []).slice(0, 8).map((t) => {
-      const kind = String(t.kind).padEnd(8, ' ');
-      return `\`${kind}\`  ${signed(t.amount)}`;
-    }).join('\n') || 'No movements.';
+  receipt({ displayName, rows, txs }) {
+    const list = rows || txs || [];
+    const body = list.slice(0, 8).map((t) => {
+      const unit = t.unit === '£' || t.unit === 'pound' ? '£' : 'WH';
+      const n = Number(t.amount) || 0;
+      const mag = Math.abs(n).toLocaleString('en-GB');
+      const signedAmt = `${n < 0 ? '−' : '+'}${mag} ${unit}`;
+      const kind = String(t.kind || 'play').padEnd(8, ' ');
+      return `\`${kind}\`  ${signedAmt}`;
+    }).join('\n') || 'No receipts.';
     return build({
       accent: ACCENT,
-      kicker: 'WORMHOLE · HISTORY',
+      kicker: '12⋮12am',
       title: `${displayName} · last 8`,
       body,
-      footer: 'Two ledgers. This is the bot ledger. Hours are not here.',
+      footer: 'The book is bank.1212.is.',
     });
+  },
+
+  curtrs(dto) {
+    return cards.receipt(dto);
   },
 
   energy(dto) {
@@ -736,24 +745,17 @@ const cards = {
   help() {
     return build({
       accent: ACCENT,
-      kicker: 'WORMHOLE · HELP',
-      title: 'Player commands',
+      kicker: '12⋮12am',
+      title: 'Play',
       body: [
-        '`.energy` `.daily` — play today. Same thing.',
-        '`.£` — your pile',
-        '12⋮12 is jackpot. Cool minutes pay 2 £.',
-        'Miss a day, fire dies.',
-        '`.$` `/balance` — frozen WH',
-        '`.shop` — catalogue',
+        '`.£` `.e` — pile',
+        '`.energy` `.daily` — play. Same thing.',
+        '`.shop` — buy',
         '`.inventory` — owned',
-        '`.curtrs` — last 8',
-        '`.leaderboard` — ring',
-        '`.give @user n` — send WH',
-        '`.pick` — catch a drop',
-        '`.node <id>` — lattice node',
-        '`.proof` — attach evidence',
+        '`.receipt` — last 8',
+        'Bank: bank.1212.is',
       ].join('\n'),
-      footer: 'Cards last 3 seconds. Bank is bank.1212.is. Staff: .drop .award .take.',
+      footer: 'Cards last 3 seconds.',
     });
   },
 
