@@ -16,7 +16,7 @@ Current `.£` that posts a pixel essay. Start with `.£`. Same factory for every
 
 | Book | Command | Unit |
 |---|---|---|
-| £nergy | `.£` `.e` `.energy` `.daily` (streak picture) | £ |
+| £nergy | `.£` `.e` `.energy` `.daily` | £ |
 | Frozen WH | `.$` `/balance` shop give drop pick | WH |
 
 Do not print WH on a £ card. Do not print £ on a WH card.
@@ -24,8 +24,8 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 ## Hard rules (do not “improve” these away)
 
 1. `.£` is the **pile**. Big number. Fire = iris count. Not extra £ by itself.
-2. `.daily` + `.energy` the same local day **auto-pays**. No Claim button. `coinsPerHour` stays 0.
-3. `.daily` alone: "You're in. Now hit .energy." `.energy` alone: "Caught. Now hit .daily."
+2. `.energy` and `.daily` are the **same play**. One tap. No Claim button. `coinsPerHour` stays 0.
+3. First tap of the day pays. Later tap only if the clock is better (top-up).
 4. Clock: 12⋮12 = 12 £ (jackpot). 12⋮21 · 21⋮12 · 21⋮21 · 06⋮39 · 09⋮36 = 2 £ (cool). Else 1 £. `09⋮63` is not a clock.
 5. Fire +1 £ treat at 3 · 6 · 9 · 12. Not multiplied. Skip a day, fire dies.
 6. Two ledgers. `.curtrs` is the WH ledger only.
@@ -40,7 +40,7 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 15. £ is £nergy, not sterling. One footer line is enough.
 16. Player-facing time is `12⋮12`, never `12:12`. `markTime()` converts.
 17. Command cards last **3 seconds**. `sendCard` deletes unless `{ stay: true }`. Stay for live drop and L1 till receipts.
-18. Player copy: Fire, Treat, Jackpot, Cool. Never XP, pair, claim, iris, gold, mana.
+18. Player copy: Fire, Treat, Jackpot, Cool. Never XP, pair, claim, iris, gold, mana. `.energy` = `.daily`.
 
 ## Stack
 
@@ -55,8 +55,8 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 1. Upgrade discord.js if `ContainerBuilder` is missing.
 2. Add `wh-cards.js`. Map Mongo member → DTO (`pound`, `streak`, `issuer`, plus existing WH `balance`).
 3. **Swap `.£` / `.e` to `cards.pound`.** Kill the pixel essay. Bank link is automatic.
-4. Swap `.daily` on the £ book to `cards.streakOn` (wait) or `cards.got` (second tap). Do not show a Claim button.
-5. Swap `.energy` to `cards.energy` (wait) or `cards.got` (second tap / top-up). Time is `12⋮12`.
+4. **`.energy` and `.daily` both call `cards.play`.** Same DTO. No wait card. No Claim button.
+5. Time is `12⋮12`. Jackpot uses `jackpot: true` or `kind: 'crest'`.
 6. Then WH surface: `.$` `.shop` `.buy` `.inventory` `.leaderboard` `.curtrs` `.drop` `.pick` `.give` `.award` `.take` `.node` `.proof`
 7. Add slash `/balance` (ephemeral V2). Keep prefix `.`
 8. Wire shop buttons `wh:buy:<id>` and L1 confirm `wh:confirm:<id>` for price ≥ 1000.
@@ -70,8 +70,8 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 | # | Command | Factory | Visibility | Accent | GIF |
 |---|---|---|---|---|---|
 | 33 | `.£` `.e` | `cards.pound` | personal | accent | thumb |
-| 34 | `.daily` | `cards.streakOn` | public | ok | thumb |
-| 14 | `.energy` | `cards.energy` | public | accent | thumb |
+| 34 | `.daily` | `cards.play` | public | ok | thumb |
+| 14 | `.energy` | `cards.play` | public | accent | thumb |
 
 WH book (frozen ledger):
 
@@ -117,10 +117,10 @@ Do **not** design: react, whitelist, animated digits, blurple Primary, emoji, �
 
 1. `ContainerBuilder` + `IsComponentsV2` and **zero** `content`/`embeds`.
 2. `.£` is a **big £ number**, not an essay. FIRE field is the streak days.
-3. `.daily` first credits **0 £** and says "Now hit .energy."
-4. Second tap (`daily`+`energy`) auto-pays. `cards.got` prints **+N £**. No Claim button.
+3. `.energy` and `.daily` both call `cards.play`. One tap pays.
+4. Later tap the same day only tops up if the clock is better. No Claim button.
 5. `.$` still prints WH. Never on a £ card.
-6. Kicker: £ book `12⋮12am · SLOT`. WH book `WORMHOLE · SLOT`.
+6. Kicker: £ book `12⋮12am`. WH book `WORMHOLE · SLOT`.
 7. GIF only where the table says. Digits static.
 8. Buttons Secondary, `wh:` ids. Bank is Link to https://bank.1212.is on **every** card.
 9. `.whitelist` still off, no card.

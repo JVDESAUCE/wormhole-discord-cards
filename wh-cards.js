@@ -15,7 +15,7 @@
  *   tx:     { kind, amount, createdAt }
  *
  * Two books. .£ is £nergy. .$ is frozen WH.
- * Player loop: .daily + .energy the same day auto-pays. No Claim button.
+ * Player loop: .energy and .daily are the same play. One tap pays.
  * Cards last 3 seconds unless { stay: true } (live drop, L1 receipts).
  * Every card gets a Bank link to https://bank.1212.is
  * Buttons are Secondary. Link style only for Bank.
@@ -282,7 +282,7 @@ const cards = {
   pound({ displayName, tag, pound = 0, streak = 0 }) {
     return build({
       accent: ACCENT,
-      kicker: '12⋮12am · BANK',
+      kicker: '12⋮12am',
       title: displayName,
       amount: pounds(pound),
       fields: [{ label: 'FIRE', value: String(streak || 0) }],
@@ -291,26 +291,32 @@ const cards = {
     });
   },
 
-  streakOn({ fromStreak, toStreak, fire, event = 'wait-energy', amount, treat = 0, jackpot = false }) {
-    if (event === 'collect' || event === 'upgrade') {
-      return cards.got({
-        amount,
-        fire: fire ?? toStreak,
-        treat,
-        upgrade: event === 'upgrade',
-        jackpot,
+  play({ amount = 1, fire = 0, treat = 0, upgrade = false, jackpot = false, hhmm, event, kind }) {
+    if (event === 'done') {
+      return build({
+        accent: WARN,
+        kicker: '12⋮12am',
+        title: 'Tomorrow',
+        fields: [{ label: 'FIRE', value: String(fire) }],
+        footer: "Don't miss it.",
+        media: 'thumb',
       });
     }
-    if (event === 'done') return cards.already({ fire: fire ?? toStreak });
+    const isJack = jackpot || kind === 'crest' || kind === 'JACKPOT' || Number(amount) >= 12;
+    const title = upgrade ? 'Better' : isJack ? 'Jackpot' : markTime(hhmm) || 'Play';
     return build({
       accent: OK,
-      kicker: '12⋮12am · DAILY',
-      title: "You're in",
-      body: 'Now hit .energy.',
-      fields: [{ label: 'FIRE', value: String(fire ?? fromStreak ?? 0) }],
-      footer: 'Gone in 3 seconds.',
+      kicker: '12⋮12am',
+      title,
+      amount: plusPounds(amount),
+      fields: [{ label: 'FIRE', value: String(fire) }],
+      footer: treat ? `Treat +${treat} £.` : "Don't miss tomorrow.",
       media: 'thumb',
     });
+  },
+
+  streakOn(dto) {
+    return cards.play(dto);
   },
 
   balance({ displayName, tag, balance, streak }) {
@@ -547,61 +553,20 @@ const cards = {
     });
   },
 
-  energy({ hhmm, kind, fire = 0, event = 'wait-daily', amount, treat = 0, jackpot = false }) {
-    if (event === 'collect' || event === 'upgrade') {
-      return cards.got({
-        amount,
-        fire,
-        treat,
-        upgrade: event === 'upgrade',
-        jackpot: jackpot || kind === 'JACKPOT' || kind === 'crest',
-      });
-    }
-    if (event === 'done') return cards.already({ fire });
-    return build({
-      accent: ACCENT,
-      kicker: '12⋮12am · CATCH',
-      title: markTime(hhmm),
-      body: 'Now hit .daily.',
-      fields: [{ label: 'FIRE', value: String(fire || 0) }],
-      footer: 'Gone in 3 seconds.',
-      media: 'thumb',
-    });
+  energy(dto) {
+    return cards.play(dto);
   },
 
-  got({ amount, fire = 0, treat = 0, upgrade = false, jackpot = false }) {
-    const title = upgrade
-      ? 'Better minute'
-      : (jackpot || Number(amount) >= 12 ? 'Jackpot' : 'Got it');
-    const body = treat
-      ? `Fire ${fire}. Treat +${treat} £. Don't miss tomorrow.`
-      : `Fire ${fire}. Don't miss tomorrow.`;
-    return build({
-      accent: OK,
-      kicker: '12⋮12am · GOT',
-      title,
-      amount: plusPounds(amount),
-      body,
-      fields: [{ label: 'FIRE', value: String(fire) }],
-      footer: 'Gone in 3 seconds.',
-      media: 'thumb',
-    });
+  got(dto) {
+    return cards.play(dto);
   },
 
   claim(dto) {
-    return cards.got(dto);
+    return cards.play(dto);
   },
 
-  already({ fire = 0 }) {
-    return build({
-      accent: WARN,
-      kicker: '12⋮12am · DAILY',
-      title: 'Already in',
-      body: "Come back tomorrow. Don't let the fire die.",
-      fields: [{ label: 'FIRE', value: String(fire) }],
-      footer: 'Gone in 3 seconds.',
-      media: 'thumb',
-    });
+  already(dto) {
+    return cards.play({ ...dto, event: 'done' });
   },
 
   node({ name, l1orL2Line, place, layer, kind, status }) {
@@ -774,11 +739,10 @@ const cards = {
       kicker: 'WORMHOLE · HELP',
       title: 'Player commands',
       body: [
+        '`.energy` `.daily` — play today. Same thing.',
         '`.£` — your pile',
-        '`.daily` — start today',
-        '`.energy` — catch the clock',
-        'Do both. That\'s £. Miss a day, fire dies.',
         '12⋮12 is jackpot. Cool minutes pay 2 £.',
+        'Miss a day, fire dies.',
         '`.$` `/balance` — frozen WH',
         '`.shop` — catalogue',
         '`.inventory` — owned',

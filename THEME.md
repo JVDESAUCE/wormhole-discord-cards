@@ -134,7 +134,7 @@ On web the mark is three dots in the digit row (`assets/digits.svg#mark`). On Di
 | £nergy | £ | Branded card. Iris. Glyphs. | `cards.pound` `streakOn` `energy` |
 | Frozen WH | WH | Separate surface if shown | `cards.balance` and the WH catalogue |
 
-`.£` is a **big number**. Two taps a day pay. Cool minutes pay 2 £. 12⋮12 pays 12 £. Fire is iris + a flat Treat +1 £ at 3 · 6 · 9 · 12. Cards last 3 seconds. Bank link on every card.
+`.£` is a **big number**. `.energy` and `.daily` are one play. Cool minutes pay 2 £. 12⋮12 pays 12 £. Fire is iris + a flat Treat +1 £ at 3 · 6 · 9 · 12. Cards last 3 seconds. Bank link on every card.
 
 ---
 

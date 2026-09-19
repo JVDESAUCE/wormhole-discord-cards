@@ -122,9 +122,9 @@ Canonical strings live in `wh-cards.js`. Do not rewrite them. Notes:
 
 **33 pound (`.£`)** — Big pile. FIRE is `{n}`. Footer: Don't miss tomorrow. Alias `.e`. Bank link. Delete in 3s.
 
-**34 streakOn (`.daily` on the £ book)** — "You're in. Now hit .energy." FIRE is current days, not incremented yet. Do not credit £. The leftover WH `cards.daily` is the frozen `.$` book only.
+**34 play (`.daily`)** — Same factory as `.energy`: `cards.play`. Amount `+1 £`. FIRE field. One tap pays. WH leftover `cards.daily` is the frozen `.$` book only.
 
-**14 energy (`.energy`)** — Wait card if they still need `.daily`. If this was the second tap, use `cards.got` instead: **+N £**, Jackpot if 12⋮12. Time is `12⋮12`, never a colon.
+**14 play (`.energy`)** — Same factory. Amount `+12 £` on jackpot. Title Jackpot. Time is `12⋮12`, never a colon.
 
 **01 balance** — Frozen WH. Fields STREAK / TAG. Footer: `Hours do not mint. This is the frozen bot ledger.`
 
@@ -155,7 +155,7 @@ Exit copy: `rooom_drink` → till · `store_discount` → 1212.is order · `drag
 
 **13 curtrs** — Last 8. `kind` stays `daily|react|invite|drop|pick|give|buy|award|welcome`. Unicode minus.
 
-**14 energy** — Wait: clock + "Now hit .daily." Pay: `cards.got` with +N £. Time printed with `⋮`. Bank on every card. Delete in 3s.
+**14 energy** — Same as `.daily`. `cards.play`. Amount `+N £`. Time printed with `⋮`. Bank on every card. Delete in 3s.
 
 **15 node** — Title-gated. Body is the node’s L1 line, or L2 line labelled as constructed. Never present L2 as physics.
 
