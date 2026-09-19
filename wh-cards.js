@@ -16,6 +16,9 @@
  *
  * Two books. .£ is £nergy. .$ is frozen WH.
  * Player loop: .energy and .daily are the same play. One tap pays.
+ * OPEN TO ALL: .£ .daily .energy .shop .receipt
+ *   No Discord role. No defaultMemberPermissions. Prefix .£ and .e. Slash /e.
+ *   Drop open-commands.js next to this file. Re-PUT guild commands.
  * Cards last 3 seconds unless { stay: true } (live drop, L1 receipts).
  * Every card gets a Bank link to https://bank.1212.is
  * Buttons are Secondary. Link style only for Bank.
@@ -751,7 +754,6 @@ const cards = {
         '`.£` `.e` — pile',
         '`.energy` `.daily` — play. Same thing.',
         '`.shop` — buy',
-        '`.inventory` — owned',
         '`.receipt` — last 8',
         'Bank: bank.1212.is',
       ].join('\n'),

@@ -5,6 +5,8 @@
 
 This is the implementation spec. The PNGs are look-books. Discord will not reproduce the typefaces. It **will** reproduce: silver left bar, big WH figure, kicker, layer tag, GIF on identity cards, grey buttons, no emoji.
 
+**Open commands** (every member, no role, no `defaultMemberPermissions`): `.£` `.e` `/e` · `.daily` · `.energy` · `.shop` · `.receipt`. See `PERMISSIONS.md` and `open-commands.js`. If `.£` currently 403s, re-PUT guild slash commands with `default_member_permissions: null`.
+
 Copy in `wh-cards.js` is canonical. This file is the contract around it.
 
 ---
@@ -234,14 +236,19 @@ Welcome grant on the **web** bank is 800 WH and is a preview. Do not mint 800 on
 
 | Slash | Default ephemeral | Notes |
 |---|---|---|
-| `/balance` | yes | Replaces the need to delete `.$` |
-| `/daily` | no | Public flex |
-| `/shop` | yes | Buttons work on ephemeral |
-| `/inventory` | yes | |
+| `/e` `/pound` | yes | The pile. Discord cannot name a slash `.£`. **No defaultMemberPermissions.** |
+| `/daily` | no | Public play. Same handler as `/energy`. Open to all. |
+| `/energy` | no | Same as `/daily`. Open to all. |
+| `/shop` | yes | Buttons work on ephemeral. Open to all. |
+| `/receipt` | yes | Last 8. Open to all. |
+| `/balance` | yes | Frozen WH. Replaces the need to delete `.$` |
+| `/inventory` | yes | Owned. Not in the open-five lock. |
 | `/leaderboard` | no | |
 | `/give` | no | |
 
 Prefix remains `.` as now.
+
+**Hard lock:** `.£` `.daily` `.energy` `.shop` `.receipt` — never call `setDefaultMemberPermissions`. Re-PUT guild commands with `default_member_permissions: null` if members currently cannot use them. See `PERMISSIONS.md`.
 
 ---
 

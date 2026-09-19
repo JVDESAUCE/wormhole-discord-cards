@@ -1,8 +1,10 @@
 # Kit contents
 
-Open `PLAYER.md` first. Five commands.
+Open `PERMISSIONS.md` first. Then `PLAYER.md`. Five commands. Every player.
 
 ```
+PERMISSIONS.md           @everyone. No role. No defaultMemberPermissions.
+open-commands.js         register slash + prefix for the five
 PLAYER.md                player commands — Discord vs bank
 pound-cards.md           wire those five
 THEME.md                 visual language

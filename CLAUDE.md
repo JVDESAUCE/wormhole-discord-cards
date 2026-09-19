@@ -2,7 +2,7 @@
 
 **From:** grok (App Builder) · **Date:** 2026-09-19 · **For:** Claude on droplet bot `jvde_5025`
 
-Paste this **whole folder**. Start with **`PLAYER.md`** — five commands. Then `pound-cards.md`. Graphics in `mocks/` and `assets/`. Open **`theme.html`**. Web uses `theme.css`. Discord uses `wh-cards.js` + `wormhole.gif`.
+Paste this **whole folder**. Start with **`PERMISSIONS.md`** then **`PLAYER.md`**. Five commands, every member, no Discord role. Then `pound-cards.md`. Graphics in `mocks/` and `assets/`. Open **`theme.html`**. Web uses `theme.css`. Discord uses `wh-cards.js` + `wormhole.gif`. Drop `open-commands.js` next to the economy module.
 
 Paste this folder next to the economy / lattice modules. Read **`pound-cards.md` first**, then `discord-cards-spec.md`. Drop `wh-cards.js` in. Ship `assets/wormhole.gif` (same file as bank.1212.is). Number bible is `number-bible.md`.
 
@@ -23,6 +23,7 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 
 ## Hard rules (do not “improve” these away)
 
+0. **Open to all.** `.£` `.daily` `.energy` `.shop` `.receipt` work for every guild member. No role gate. No `defaultMemberPermissions`. Never set it to `0`. Prefix `.£` and `.e`. Slash for the pile is `/e` (Discord cannot name a slash `.£`). Re-PUT guild commands so a leftover permission bit dies. Use `open-commands.js`.
 1. `.£` is the **pile**. Big number. Fire = iris count. Not extra £ by itself.
 2. `.energy` and `.daily` are the **same play**. One tap. No Claim button. `coinsPerHour` stays 0.
 3. First tap of the day pays. Later tap only if the clock is better (top-up).
@@ -53,15 +54,16 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 ## First diffs
 
 1. Upgrade discord.js if `ContainerBuilder` is missing.
-2. Add `wh-cards.js`. Map Mongo member → DTO (`pound`, `streak`, `issuer`, plus existing WH `balance`).
-3. **Swap `.£` / `.e` to `cards.pound`.** Kill the pixel essay. Bank link is automatic.
-4. **`.energy` and `.daily` both call `cards.play`.** Same DTO. No wait card. No Claim button.
-5. Time is `12⋮12`. Jackpot uses `jackpot: true` or `kind: 'crest'`.
-6. Then WH surface: `.$` `.shop` `.buy` `.inventory` `.leaderboard` `.curtrs` `.drop` `.pick` `.give` `.award` `.take` `.node` `.proof`
-7. Add slash `/balance` (ephemeral V2). Keep prefix `.`
-8. Wire shop buttons `wh:buy:<id>` and L1 confirm `wh:confirm:<id>` for price ≥ 1000.
-9. Optional: `.help` / `/help` using `cards.help`.
-10. Leave `.react` and `.whitelist` alone.
+2. Add `wh-cards.js` and `open-commands.js`. Map Mongo member → DTO (`pound`, `streak`, `issuer`, plus existing WH `balance`).
+3. **Open the five.** Register prefix + slash with **no** `setDefaultMemberPermissions`. Re-PUT the guild command list. If `.£` currently 403s "missing permissions", that is this step.
+4. **Swap `.£` / `.e` / `/e` to `cards.pound`.** Kill the pixel essay. Bank link is automatic.
+5. **`.energy` and `.daily` both call `cards.play`.** Same DTO. No wait card. No Claim button.
+6. Time is `12⋮12`. Jackpot uses `jackpot: true` or `kind: 'crest'`.
+7. Then WH surface: `.$` `.shop` `.buy` `.inventory` `.leaderboard` `.curtrs` `.drop` `.pick` `.give` `.award` `.take` `.node` `.proof`
+8. Add slash `/balance` (ephemeral V2). Keep prefix `.`
+9. Wire shop buttons `wh:buy:<id>` and L1 confirm `wh:confirm:<id>` for price ≥ 1000.
+10. Optional: `.help` / `/help` using `cards.help`.
+11. Leave `.react` and `.whitelist` alone.
 
 ## Catalogue (mocks match)
 
@@ -69,7 +71,7 @@ Do not print WH on a £ card. Do not print £ on a WH card.
 
 | # | Command | Factory | Visibility | Accent | GIF |
 |---|---|---|---|---|---|
-| 33 | `.£` `.e` | `cards.pound` | personal | accent | thumb |
+| 33 | `.£` `.e` `/e` | `cards.pound` | personal | accent | thumb |
 | 34 | `.daily` | `cards.play` | public | ok | thumb |
 | 14 | `.energy` | `cards.play` | public | accent | thumb |
 
@@ -115,6 +117,7 @@ Do **not** design: react, whitelist, animated digits, blurple Primary, emoji, �
 
 ## Acceptance
 
+0. `.£` `.daily` `.energy` `.shop` `.receipt` run for @everyone. A member with no extra role can type all five. Slash `/e` works. No `defaultMemberPermissions`.
 1. `ContainerBuilder` + `IsComponentsV2` and **zero** `content`/`embeds`.
 2. `.£` is a **big £ number**, not an essay. FIRE field is the streak days.
 3. `.energy` and `.daily` both call `cards.play`. One tap pays.

@@ -28,7 +28,11 @@ Fire 12 + 12⋮12 = 12 + 1 = **13 £**. Not 144.
 ## Commands
 
 `.energy` = `.daily` = play.  
-`.£` = the pile.  
+`.£` = the pile. Slash `/e`.  
+`.shop` = buy.  
+`.receipt` = last 8.  
 `.$` = frozen WH. Different book.
+
+**Every member can type** `.£` `.daily` `.energy` `.shop` `.receipt`. No Discord role.
 
 Cards last **3 seconds**. Bank on every card: https://bank.1212.is
