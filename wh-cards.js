@@ -570,7 +570,9 @@ const cards = {
   },
 
   got({ amount, fire = 0, treat = 0, upgrade = false, jackpot = false }) {
-    const title = upgrade ? 'Better minute' : jackpot || Number(amount) >= 12 ? 'Jackpot' : 'Got it';
+    const title = upgrade
+      ? 'Better minute'
+      : (jackpot || Number(amount) >= 12 ? 'Jackpot' : 'Got it');
     const body = treat
       ? `Fire ${fire}. Treat +${treat} £. Don't miss tomorrow.`
       : `Fire ${fire}. Don't miss tomorrow.`;
